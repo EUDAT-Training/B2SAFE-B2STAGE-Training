@@ -76,7 +76,7 @@ irule -vF eudatGetV.r
 * Create a test collection
 ```sh
 mkdir testData
-#save som,e file with content in testData
+#save some file with content in testData
 vim testData/testfile.txt
 # ingest collection into iRODS
 iput -r testData/

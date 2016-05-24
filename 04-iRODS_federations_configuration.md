@@ -6,8 +6,10 @@ Two iRODS 4.1 zones.
 
 ## Configuring the iRODS federation
 ### Creating remote zones and users
-Assume we have to iRODS servers *aliceZone* with *alice* as iRODS admin and *bobZone* with *bob* as iRODS admin.
+Assume we have two iRODS servers *aliceZone* with *alice* as iRODS admin and *bobZone* with *bob* as iRODS admin.
 - We need to create remote zones on the respective machines, i.e. on *aliceZone* we need to create a remote zone for *bobZone* and vice versa. On *aliceZone* do
+[//]: # "I presume that the full hostname or ipaddress is that of alice."
+[//]: # "I would make that a bit more clear here."
 ```sh
 iadmin mkzone bobZone remote <full hostname or ipadress>:1247
 ```
@@ -16,15 +18,16 @@ Note that you cannot rename *bobZone*, the remote zone name needs to be exactly 
 iadmin mkzone aliceZone remote <full hostname or ipadress>:1247
 ```
 
-- Next we need to grant access to *alice* on *bobZone* as **rodsuser** 
+[//]: # "rodsuser is not yet explained."
+- Next we need to grant access to *alice* on *bobZone* as **rodsuser**
 ```sh
 iadmin mkuser alice#aliceZone rodsuser
 ```
-- And on *aliceZone* we need make *bob* known as a user 
+- And on *aliceZone* we need make *bob* known as a user
 ```sh
 iadmin mkuser bob#bobZone rodsuser
 ```
-The '#' denotes the zone where the user *alice* is known and authenticated. 
+The '#' denotes the zone where the user *alice* is known and authenticated.
 **rodsuser** gives alice user rights. With
 ```sh
 iadmin lt user_type
@@ -69,6 +72,9 @@ ERROR: connectToRhost: error returned from host localhost status = -38000 status
 ERROR: _rcConnect: connectToRhost error, server on localhost:1247 is probably down status = -38000 SYS_AGENT_INIT_ERR
 ```
 Open the hosts_config.json and enter on *aliceZone* the addresses of your local zone and the remote zone (*bobZone*) (please remove the comments):
+[//]: # "I would not use those ip addresses. Better using a private ip address."
+[//]: # "You can pick anyone from this range: 10.0.0.0 - 10.255.255.255"
+[//]: # "Same for the FQDN. It is better not use surfsara.nl, example.org"
 ```sh
 {
     "host_entries": [
@@ -105,4 +111,4 @@ bob@irods4:~$ ils /aliceZone/home/bob#bobZone
 ```
 
 We explain [HERE](https://github.com/EUDAT-Training/B2SAFE-B2STAGE-Training/blob/master/05-iRODS-advanced-users.md) the basics of how you can manage data across different iRODS zones.
-In our [B2SAFE-HANDS-ON](https://github.com/EUDAT-Training/B2SAFE-B2STAGE-Training/blob/master/06-B2SAFE-handson.md) we illustrate how to employ policies for data management in iRODS federations. 
+In our [B2SAFE-HANDS-ON](https://github.com/EUDAT-Training/B2SAFE-B2STAGE-Training/blob/master/06-B2SAFE-handson.md) we illustrate how to employ policies for data management in iRODS federations.

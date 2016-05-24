@@ -1,19 +1,19 @@
 # EUDAT B2SAFE hands-on
 This hands-on will illustrate how B2SAFE rules can be employed to manage data across iRODS zones by policies.
-The tutorial makes use of the icammands. If you did not so then please first follow the tutorial on [using iRODS](https://github.com/chStaiger/B2SAFE-B2STAGE-Training/blob/master/01-iRODS-handson-user.md).
+The tutorial makes use of the icommands. If you did not so then please first follow the tutorial on [using iRODS](https://github.com/chStaiger/B2SAFE-B2STAGE-Training/blob/master/01-iRODS-handson-user.md).
 
 ## B2SAFE data transfer workflow (Using B2SAFE)
 ### To follow this tutorial it is advised to first follow the tutorial on using iRODS.
 
 ### Outline
 The tutorial will guide you through Step2 in the figure below.
-As B2SAFE admin you will copy data from a user, which he/she ingested into the iRODS instance, to another location in iRODS. You will register the data and by that buil the so-called repository of records and replicate the collection to another iRODS server using the B2SAFE rules.
+As B2SAFE admin you will copy data from a user, which he/she ingested into the iRODS instance, to another location in iRODS. You will register the data and by that buil the so-called repository of records and replicate the collection to another iRODS server using the B2SAFE rules.s B2SAFE admin you will copy data from a user, which he/she ingested into the iRODS instance, to another location in iRODS. You will register the data and by that, build the so-called repository of records and replicate the collection to another iRODS server using the B2SAFE rules.
 
 <img align="center" src="img/workflow.png" width="500px">
 
 ### Prerequisites
 - Installation of the icommands
-- As iRODS user ingest data into iRODS and give your B2SAFE admin access to the collection. These steps are explained in the iRODS-using tutorial. 
+- As iRODS user ingest data into iRODS and give your B2SAFE admin access to the collection. These steps are explained in the iRODS-using tutorial.
 
 ### iRODS rules
 iRODS provides a way to execute data management procedures automatically and on regular bases or upon a certain action. To this end these procedures are defined in so-called iRODS rules.
@@ -30,7 +30,7 @@ OUTPUT ruleExecOut
 
 You can save this rule as hello.r and call it via the icommands:
 ```sh
-irule -F hello.r 
+irule -F hello.r
 ```
 The option *-F* indicates that the next argument is a file.
 iRODS provides some standard rules which you can find here
@@ -59,7 +59,7 @@ INPUT *path = "/aliceZone/home/alice/put1.txt", *ror = "", *parent_pid =""
 OUTPUT *newPID, ruleExecOut
 ```
 And save this file as testRules/registerFile.r
-The rule takes our *put1.txt* as input file. We also communicate that there does not exist a repository od resources yet (\*ror). If the file we would like to register is a replica of another file, we can give the PID of the so-called parent with the parameter \*parent_pid to introduce the correct linking of the PID entries (see also the PID tutorial).
+The rule takes our *put1.txt* as input file. We also communicate that there does not exist a repository or resources yet (\*ror). If the file we would like to register is a replica of another file, we can give the PID of the so-called parent with the parameter \*parent_pid to introduce the correct linking of the PID entries (see also the PID tutorial).
 In *OUTPUT* we define which variables should be prompted on the command line, in this case we would like to receive the newly created PID.
 
 Execute the rule:
@@ -103,7 +103,7 @@ This will return:
         units:
 **Exercise**: Write a script or an iRODS rule to retrieve all PIDs of a data collection.
 
-3. Replicate the data collection from aliceZone to bobZone. The B2SAFE admin also has access to bobZone via an iRODS federation. We will now transfer the data collection to this zone. 
+3. Replicate the data collection from aliceZone to bobZone. The B2SAFE admin also has access to bobZone via an iRODS federation. We will now transfer the data collection to this zone.
 Merely transferring the data could also be done by the icommand *irepl*. However, we would like to 1) calculate checksums, create PIDs and link the replicas' PIDs with their parent counterparts. This is all already implemented by B2SAFE rules.
 Create the file testRules/Replication.r with the following content:
         
@@ -118,6 +118,7 @@ Create the file testRules/Replication.r with the following content:
         OUTPUT ruleExecOut
 Now let's have a closer look at the PID entries of the parent data on aliceZone. The resolver will show you some information like that:
 
+[//] # "Perhaps a private ip address instead"
 Index |  Type |   Timestamp |  Data
 ------|--------|--------------|--------
 1 |  URL| 2016-02-22 17:33:49Z |   irods://145.100.58.12:1247/aliceZone/home/alice/DataCollection/put1.txt
@@ -128,6 +129,7 @@ The *100/LOC* of the parent file has been extended with the PID of it's replica.
 
 Let's have a look at the content of the replica's PID
 
+[//] # "Perhaps a private ip address instead"
 Index |  Type |   Timestamp |  Data
 ------|--------|--------------|--------
 1 |  URL | 2016-02-22 17:46:04Z  |  irods://145.100.58.24:1247/bobZone/home/alice#aliceZone/DataCollection/put1.txt
@@ -136,9 +138,9 @@ Index |  Type |   Timestamp |  Data
 4 |  EUDAT/ROR |  2016-02-22 17:46:04Z  |  846/6e67a674-d98a-11e5-b634-04040a64000c
 5 |  EUDAT/PPID |  2016-02-22 17:46:04Z  |  846/6e67a674-d98a-11e5-b634-04040a64000c
 
-The replica contains two extra fields. 
-*EUDAT/ROR* indicates the original file in the repository of resources. 
-*EUDAT/PPID* contains the PID to the direct parent. 
+The replica contains two extra fields.
+*EUDAT/ROR* indicates the original file in the repository of resources.
+*EUDAT/PPID* contains the PID to the direct parent.
 
 The ROR-entry is important to verify that the replica is indeed the same as the ROR, which has to be done by integrity checks. Every replica, also a replica of a replica, will inherit this entry. The PPID entry is important to build the linked list of replicas in case replicas are further replicated to other sites.
 
@@ -146,7 +148,7 @@ The ROR-entry is important to verify that the replica is indeed the same as the 
 
 Option 1)
 
-As B2SAFE admin you have access to the PIDs of the parent PID in your iCAT catalogue. 
+As B2SAFE admin you have access to the PIDs of the parent PID in your iCAT catalogue.
 
 **Exercise** If you already followed the [PID tutorial](https://github.com/chStaiger/B2SAFE-B2STAGE-Training/blob/master/0X-Working-with-PIDs_epicclient.md) write a script to fetch all PIDs of the replicas and check whether original and replica indeed have the same checksum
 

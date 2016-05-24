@@ -1,20 +1,21 @@
 # Working with iRODS resources and federations
 This part of the tutorial will show how you can work with resources, automate data policies and transfer data across iRODS zones via federations.
 This part of the tutorial assumes that you either followed the tuorial [part 02 - for admins](https://github.com/EUDAT-Training/B2SAFE-B2STAGE-Training/blob/master/02-iRODS-handson-admin.md)
-or that an irodsadmin created several resources on the iRODS instance you are working on.
+or that an irodsadmin has created several resources on the iRODS instance you are working on.
 
+[//]: # "Can or must?"
 All commands can be executed as *irods user* from the user interface machine.
 
 ## Data and data resources
 
-In the first part of the tutorial you ingested the file *put1.txt* into iRODS using the *demoResc*. With 
+In the first part of the tutorial you ingested the file *put1.txt* into iRODS using the *demoResc*. With
 
 ```sh
 ilsresc
 ```
 we can check which other resources are available. E.g.
 
-```sh
+```
 demoResc
 globalResc
 newResc
@@ -36,7 +37,7 @@ ils -l put1.txt
 ```
 
 which will yield
-```sh
+```
   alice             0 demoResc           13 2016-02-22.18:06 & put1.txt
   alice             1 globalResc           13 2016-05-05.15:57 & put1.txt
   alice             2 newResc           13 2016-05-05.15:58 & put1.txt
@@ -53,6 +54,7 @@ itrim -n 1 put1.txt
 
 **Exercise** How can you reduce the number of replicas to 1?
 
+[//]: # "Headers are missing. Is this correct?"
 []()  | []()
 ------|------
 irepl   | Replicate data to a resource
@@ -70,7 +72,7 @@ ils /bobtestZone/home/alice#alicetestZone
 We can copy data to the remote zone:
 ```sh
 irsync -R demoResc i:/alicetestZone/home/alice/put1.txt \
- i:/bobtestZone/home/alice#alicetestZone/put1.txt 
+ i:/bobtestZone/home/alice#alicetestZone/put1.txt
 ```
 You can also directly ingest data into the remote iRODS instance
 ```sh
@@ -169,7 +171,7 @@ The function *delay* delayes the execution by 1 minute and restarts the rule aut
 The output of the rule is written to the rodsLog file in */var/lib/irods/iRODS/server/log/reLog*.
 
 ### Microservices
-Microservices are small and well-defined functions tp perform simple tasks. A list of pre-implemented microservices can be found [here](https://docs.irods.org/master/doxygen/).
+Microservices are small and well-defined functions to perform simple tasks. A list of pre-implemented microservices can be found [here](https://docs.irods.org/master/doxygen/).
 
 **Example** for calling an external python script via the microservice *msiExecCmd*. The rule fetches the help for the python script.
 ```sh
@@ -183,7 +185,7 @@ INPUT null
 OUTPUT ruleExecOut
 ```
 The first argument of *msiExecCmd* is the actual command. In that case the python script begins with the hash-bang *#!/usr/bin/env python* which makes it executable. The second argument is a list of parameters and the last stores the output of the executed command.
-**Note** that all commands that you call need to be located in *iRODS/server/bin/cmd*. To add new commands to that folder you need *sudo* rights on the iRODS server. 
+**Note** that all commands that you call need to be located in *iRODS/server/bin/cmd*. To add new commands to that folder you need *sudo* rights on the iRODS server.
 
 ### Exercise
-Write a rule that periodically checks whether new data is ingested into a certain collection and automatically replicate the data to a dedicated storage resource. You can make use of delayed iRODS rules. Some microservices can be of help. 
+Write a rule that periodically checks whether new data is ingested into a certain collection and automatically replicate the data to a dedicated storage resource. You can make use of delayed iRODS rules. Some microservices can be of help.

@@ -1,5 +1,5 @@
 # iRODS for users
-This lecture introduces you to the basics what iRODS is and how you do simple data management as a user. 
+This lecture introduces you to the basics what iRODS is and how you do simple data management as a user.
 To this end we will make use of the icommands.
 
 ## Prerequisites
@@ -7,7 +7,7 @@ To this end we will make use of the icommands.
 - icommands client, [Installation](http://irods.org/download/)
 
 ## Outline
-The whole tutorial will guide you through the workflow indicated in the figure below. This part is about **Step 1** ingesting data and administering data in iRODS via the icommands. You will have the role as an iRODS user.
+The tutorial will guide you through the workflow as indicated in the figure below. This part is about **Step 1** ingesting data and administering data in iRODS via the icommands. You will have the role as an iRODS user.
 All commands shown in this part are either icommands or shell commands.
 
 <img align="center" src="img/workflow.png" width="400px">
@@ -28,11 +28,11 @@ Usually iinit uses the irods_environment.json to retrieve information to which i
 
 ```sh
 Enter the host name (DNS) of the server to connect to:  <ip adrdress or fully qualified hostname>
-Enter the port number: 1247 
+Enter the port number: 1247
 Enter your irods user name: <irodsuser>
 Enter your irods zone: <zonename>
 ```
-The port numer is standard 1247. The zone name, username and password will be provided by the iRODS admin.
+The default port numer is 1247. The zone name, username and password will be provided by the iRODS admin.
 You can revisit the file and configuration in *.irods/irods_environment.json*. If you want to login as another iRODS user you will have to alter this file.
 
 ### Some iRODS concepts
@@ -60,7 +60,7 @@ NOTICE: created irodsCwd=/aliceZone/home/irods
 
 **Some useful commands for session management**
 
-[]()  | []() 
+[]()  | []()
 ------|------
 iinit       | Log on
 iexit       | Log off
@@ -72,10 +72,11 @@ ierror      | Information on error code
 
 To see which physical resources are attached to the iRODS instance and what their logical names are, you can use:
 ```sh
-ilsresc –l 
+ilsresc –l
 ```
 which will yield:
-```sh
+```
+[//]: # "Below type is highlighted in the rendered text. Removed the sh interpretation"
 resource name: demoResc
 id: 9101
 zone: aliceZone
@@ -160,7 +161,7 @@ With the *-f* option you can force iRODS to overwrite existing data.
 ```sh
 iput -K -f put1.txt
 ```
-If you now list the collection content again with the *-L* option you caninspect the md5 checksum.
+If you now list the collection content again with the *-L* option you can inspect the md5 checksum.
 You can also specify which subcollection and which resource iRODS should use to store the data.
 
 ```sh
@@ -204,12 +205,13 @@ imv /eveZone/trash/home/eve/testData/put1.txt /eveZone/home/eve/testData
 imv /eveZone/home/eve/testData/put1.txt /eveZone/home/eve/testData/put2.txt
 ```
 
-To remove the file completly from the system, you need to execute 
+To remove the file completly from the system, you need to execute
 ```sh
 irmtrash
 ```
 This is called a hard delete. Now the file is removed from the system and from the iCAT catalogue.
 
+[//]: # "The below table is not formatted as a table on my screen."
 **Object/collection manipulation**
 []()        | []()
 ------------|------
@@ -228,7 +230,7 @@ ils -A
 ```
 ```
     /aliceZone/home/alice:
-            ACL - alice#aliceZone:own   
+            ACL - alice#aliceZone:own
             Inheritance – Disabled
 ```
 This tells us that /home/alice is only visible by the user *alice* and the irodsadmin, who has access to all data by default.
@@ -269,14 +271,14 @@ ichmod read bob put1.txt
 ```
 If user *bob* now tries to list or retrieve put1.txt in our home collection he will receive the follwing error, although the ACLs on the file itself have been set correctly.
 
-```sh
+```
 ERROR: lsUtil: srcPath /aliceZone/home/alice/put1.txt does not exist or user lacks access permission
 ```
 This is due to the fact, that *bob* has no read rights on the parent collection /aliceZone/home/
 
 
 ### Annotating data and queries
-iRODS provides the user with the possibility to create **A**ttribute **V**alue **U**nit triplets and store them with the data. The triplets are stored in the iCAT catalogue, which can be queried to idemtify and retrieve the correct objects.
+iRODS provides the user with the possibility to create **A**ttribute **V**alue **U**nit triplets and store them with the data. The triplets are stored in the iCAT catalogue, which can be queried to identify and retrieve the correct objects.
 
 We can store information e.g. on the creation data of a file
 ```sh
