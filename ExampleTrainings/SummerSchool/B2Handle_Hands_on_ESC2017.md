@@ -28,11 +28,12 @@ The library currently supports Python 2.6, 2.7 and 3.5, and requires at least a 
 ## Setup
 
 ```commandline
-ssh di4r-user*@145.s100.59.156
+ssh di4r-user*@145.100.59.156
 
 ipython
 
 ```
+
 
 ## 1. The EUDATHandleClient
 
@@ -48,6 +49,7 @@ The help() method gives us useful information about its methods.
 ## 2. Resolving Handles
 It is easy to resolve a handle and read its handle record using the B2Handle library. For this, we instantiate the
 client in read-mode and use its reading methods.
+
 
 ### 2.1 Instantiation of the client
 
@@ -98,18 +100,11 @@ If you pass it to the reading methods, these do not access the Handle Server any
 print(client.get_value_from_handle(handle, 'CREATION_DATE', handlerecord_json))
 ```
 
-03-07-2017
-
-
-
 ## 3. Creating Handle records
 
 In their simple form, PIDs or Handles are simple redirection to URL. In this case all they have is an entry that stores
 the URL.
 You can simply create such a handle using the method _register_handle()_.
-
-
-
 
 ### 3.1 Create Handle for the public file
 
@@ -122,8 +117,6 @@ First we define the location or the URL of the file.
 ```python
 location = 'https://ndownloader.figshare.com/files/2292172'
 ```
-<br></br>
-<br></br>
 
 - **PID name**
 
@@ -166,6 +159,8 @@ To use client-side certificates for authentication, the user has to pass a certi
 
 For this, the library either needs a file containing private key and certificate, or both as separate files. To simplify those three different ways of authenticating, there is a special class, called PIDClientCredentials
 
+
+
 ```python
 from b2handle.clientcredentials import PIDClientCredentials
 cred = PIDClientCredentials.load_from_JSON(
@@ -192,8 +187,6 @@ cred.get_all_args()
  'reverselookup_username': '21.T12995'}
 
 ```
-
-<br></br>
 
 Let's try again now!
 
@@ -259,12 +252,11 @@ modify_handle_value(handle, ...)
 
 Let's try it - let's add the creation date and file type to the Handle record.
 
-
 - ***adding new values (create some Metadata)***
 
 With the same method, we can add new values to the Handle record.
 
-<br></br>
+
 ```python
 client.modify_handle_value(Handle, TYPE='file')
 print(client.retrieve_handle_record(handle))
@@ -298,8 +290,6 @@ print('deleted wrong value')
 print(client.get_value_from_handle(handle, 'RCEATION_DATE'))
 ```
 
-None
-
 - ***modify existing values***
 
 Now we can try to modify again:
@@ -313,8 +303,6 @@ Let's check again if it worked!
 print(client.get_value_from_handle(handle, 'CREATION_DATE'))
 ```
 
-04-07-2017
-
 - ***Download file by PID***
 
 In ipython normal shell commands can  be executed with !in front of the command
@@ -326,10 +314,6 @@ pidname
 !cat <pidname>
 
 ```
-<br></br>
-<br></br>
-<br></br>
-<br></br>
 ## 5. Create a PID for the local file
 
 We will create now a PID for the locally downloaded file

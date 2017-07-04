@@ -125,12 +125,12 @@ The '%' works as wild card, variables are denoted by '*'.
 
 ### Passing arguments and ouput
 HelloWorld{
-    if(*name=="<YourName>"){
-        writeLine("stdout", "Hello *name!");
+    if(*name==""){
+        writeLine("stdout", "Hello world!");
         }
-    else { writeLine("stdout", "Hello world!"); }
+    else { writeLine("stdout", "Hello *name!"); }
 }
-INPUT *name="YourName"
+INPUT *name=""
 OUTPUT ruleExecOut, *name
 
 We can overwrite input parameters by calling the function like this:
