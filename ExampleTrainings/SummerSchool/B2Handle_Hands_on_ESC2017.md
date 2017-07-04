@@ -28,11 +28,12 @@ The library currently supports Python 2.6, 2.7 and 3.5, and requires at least a 
 ## Setup
 
 ```commandline
-ssh di4r-user*@145.s100.59.156
+ssh di4r-user*@145.100.59.156
 
 ipython
 
 ```
+
 
 ## 1. The EUDATHandleClient
 
@@ -48,6 +49,7 @@ The help() method gives us useful information about its methods.
 ## 2. Resolving Handles
 It is easy to resolve a handle and read its handle record using the B2Handle library. For this, we instantiate the
 client in read-mode and use its reading methods.
+
 
 ### 2.1 Instantiation of the client
 
@@ -157,6 +159,8 @@ To use client-side certificates for authentication, the user has to pass a certi
 
 For this, the library either needs a file containing private key and certificate, or both as separate files. To simplify those three different ways of authenticating, there is a special class, called PIDClientCredentials
 
+
+
 ```python
 from b2handle.clientcredentials import PIDClientCredentials
 cred = PIDClientCredentials.load_from_JSON(
@@ -248,12 +252,11 @@ modify_handle_value(handle, ...)
 
 Let's try it - let's add the creation date and file type to the Handle record.
 
-
 - ***adding new values (create some Metadata)***
 
 With the same method, we can add new values to the Handle record.
 
-<br></br>
+
 ```python
 client.modify_handle_value(Handle, TYPE='file')
 print(client.retrieve_handle_record(handle))
