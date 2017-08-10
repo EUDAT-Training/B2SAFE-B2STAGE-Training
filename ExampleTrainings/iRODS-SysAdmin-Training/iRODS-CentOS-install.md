@@ -60,7 +60,6 @@ Save the firewall configuration and restart the server:
 
 ```sh
 sudo service iptables save  
-
 sudo shutdown -r now 
 ```   
 
@@ -89,8 +88,6 @@ Install porstgresql:
 
 ```sh
 sudo yum install postgresql-server
-
-
 sudo service postgresql initdb
 ```
 Before we start the server we have to manually set the host-based access list for postgresql.
