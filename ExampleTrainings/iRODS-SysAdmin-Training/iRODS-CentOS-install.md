@@ -17,36 +17,26 @@ sudo vi /etc/hosts
 Example:
 
 ```sh
-127.0.0.1     localhost localhost.localdomain  irods-centos
+127.0.0.1     localhost localhost.localdomain irods-centos.localdomain
 ::1           localhost localhost.localdomain localhost6 localhost6.localdomain6
-you.rIP.ad.dr irods-centos
+you.rIP.ad.dr irods-centos.localdomain fully.qualified.domain.name
 ```
 
-Set the new hostname in the network configuration of your machine
-
-```sh
-sudo vi /etc/sysconfig/network 
-```
-
-Example:
-
-```sh
-# Created by anaconda
-HOSTNAME=irods-centos
-NOZEROCONF=yes
-NETWORKING=yes
-```
 Then set the  hostname
 
 ```sh
-sudo hostname -b irods-centos
-```
-and also set the name in
-
-```
-vi /etc/hostname
+sudo hostnamectl set-hostname irods-centos
 ```
 
+Check that the servername is set correctly after a reboot
+
+```
+sudo reboot
+```
+
+```
+hostname
+```
 
 ## Firewall configuration
 We need to open the normal ssh port and some extra ports for iRODS and postgresql:
@@ -206,4 +196,12 @@ echo "Hello world!" > test.txt
 iput -K test.txt
 ils -L test.txt
 ```
+
+## Remarks
+Everytime you restart the server, the postgresql database needs to be restarted with:
+
+```sh
+sudo service postgresql start
+```
+
 
