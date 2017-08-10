@@ -41,6 +41,12 @@ Then set the  hostname
 ```sh
 sudo hostname -b irods-centos
 ```
+and also set the name in
+
+```
+vi /etc/hostname
+```
+
 
 ## Firewall configuration
 We need to open the normal ssh port and some extra ports for iRODS and postgresql:
