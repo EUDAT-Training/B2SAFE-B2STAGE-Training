@@ -128,11 +128,6 @@ exit
 ```
 
 ## Download and install iRODS
-Change to your iRODS service account:
-
-```sh
-sudo su - irods
-```
 
 Download the iRODS server software and the database plugin and install the packages:
 
