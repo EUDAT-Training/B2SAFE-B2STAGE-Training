@@ -55,6 +55,10 @@ sudo iptables -A INPUT -p tcp -m tcp --dport 20157 -j ACCEPT
 sudo iptables -A INPUT -p icmp -j ACCEPT
 sudo iptables -P INPUT DROP
 sudo iptables -P FORWARD DROP
+```
+Save the firewall configuration and restart the server:
+
+```sh
 sudo service iptables save  
 
 sudo shutdown -r now 
