@@ -59,7 +59,7 @@ sudo service iptables save
 sudo shutdown -r now 
 ```   
 
-## Install postgrasql
+## Install postgresql
 By default iRODS uses a postgresql database as iCAT metadata catalogue.
 Install porstgresql:
 
@@ -125,6 +125,13 @@ sudo yum install irods-icat-4.1.10-centos7-x86_64.rpm
 sudo yum install irods-database-plugin-postgres-1.10-centos7-x86_64.rpm
 ```
 
+iRODs will be installed under `/var/lib/irods` and `/etc/irods`. Currently, these folders belong to root. However, iRODS will be run under the user 'irods', we need to grant the user access to these two folders:
+
+```sh
+sudo chown -R irods:irods /var/lib/irods 
+sudo chown -R irods:irods /etc/irods
+```
+
 ## Create a folder that serves as iRODS Vault
 
 By default the initial installation of iRODS creates the iRODS vault under
@@ -134,6 +141,7 @@ By default the initial installation of iRODS creates the iRODS vault under
 sudo mkdir /irodsVault/
 sudo chown irods:irods /irodsVault/
 ```
+
 
 ## Configure iRODS
 Configureation of iRODS is done by running the script:
