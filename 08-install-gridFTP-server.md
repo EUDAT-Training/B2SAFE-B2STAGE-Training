@@ -48,6 +48,7 @@ COMMIT
 ```sh
 /etc/init.d/iptables-persistent restart
 ```
+ For Ubuntu 16.04 you can follow [this guide](http://dev-notes.eu/2016/08/persistent-iptables-rules-in-ubuntu-16-04-xenial-xerus/) to change your default iptables configuration.
  
  To ensure the mapping from IP to hostname you might have to edit the */etc/hosts*:
 ```sh

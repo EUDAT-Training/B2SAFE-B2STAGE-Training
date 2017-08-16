@@ -2,7 +2,7 @@
 This document describes how to install iRODS4.1 on a Ubuntu machine with a postgresql 9.3 database as iCAT.
 
 ## Environment
-Ubuntu 14.04 server
+The documentation is tested with an Ubuntu 14.04 server and contains some remarks and links to what needs to be changed when working on Ubuntu 16.04.
 
 ##Prerequisites
 ### 1. Update and upgrade if necessary
@@ -52,17 +52,14 @@ COMMIT
 ```sh
 /etc/init.d/iptables-persistent restart
 ```
+For Ubuntu 16.04 you can follow [this guide](http://dev-notes.eu/2016/08/persistent-iptables-rules-in-ubuntu-16-04-xenial-xerus/) to change your default iptables configuration.
 
 Create a user under which you want to work and add the account to the sudoers file.
 
-### 3. Install postgresql
-```sh
-sudo apt-get install postgresql
-```
-
-### 4. Set host name
+### 3. Set host name
 
 ```sh
+sudo apt-get install dbus # for Ubuntu 16
 hostnamectl set-hostname <new-hostname>
 echo "IPa.ddr.ess <new-hostname>" >> /etc/hosts
 ```
@@ -73,6 +70,11 @@ Example hosts-file:
 127.0.0.1   localhost
 127.0.1.1	alice-server
 IPa.ddr.ess  alice.eudat-sara.vm.surfsara.nl alice-server
+```
+
+### 4. Install postgresql
+```sh
+sudo apt-get install postgresql
 ```
 
 ## Installing iRODS
@@ -88,13 +90,16 @@ exit
 ```
 ### 6. Download and install iRODS packages
 We are installing iRODS 4.1.8. If you want to install a different version simply replace *4.1.8* with the version you would like to use.
-```sh
-wget ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-icat-4.1.8-ubuntu14-x86_64.deb
-wget ftp://ftp.renci.org/pub/irods/releases/4.1.8/ubuntu14/irods-database-plugin-postgres-1.8-ubuntu14-x86_64.deb
-```
+- Ubuntu 14.04
+ ```sh
+ wget ftp://ftp.renci.org/pub/irods/releases/4.1.10/ubuntu14/irods-icat-4.1.10-ubuntu14-x86_64.deb
+ wget ftp://ftp.renci.org/pub/irods/releases/4.1.10/ubuntu14/irods-database-plugin-postgres-1.10-ubuntu14-x86_64.deb
+ ```
+- Ubuntu 16.04
+ iRODS only offers its software for Ubuntu 14. 
 
 ```sh
-sudo dpkg -i irods-icat-4.1.8-ubuntu14-x86_64.deb irods-database-plugin-postgres-1.8-ubuntu14-x86_64.deb
+sudo dpkg -i irods-icat-4.1.10-ubuntu14-x86_64.deb irods-database-plugin-postgres-1.10-ubuntu14-x86_64.deb
 ```
 This will exit with the following error message:
 ```sh
@@ -113,10 +118,11 @@ sudo apt-get -f install
 - First we create the iRODS vault. This is the place where by default (*demoResc* later in iRODS) all data will be stored physically that enters iRODS. We need to grant the user who runs iRODS (usually *irods*) read and write access:
 ```sh
 sudo mkdir /irodsVault
-sudo chown -R irods /irodsVault
 ```
 
 - Configure iRODS
+The script will create a unix service account and group called 'irods' which will run the service
+
 ```sh
 sudo /var/lib/irods/packaging/setup_irods.sh
 ```
@@ -128,6 +134,29 @@ iRODS servers zone_key [TEMPORARY_zone_key]: ALICE_zone_key
 iRODS servers administrator username [rods]: alice
 Database servers hostname or IP address: localhost
 ```
+
+Since the unix user 'irods' has no access to our Vault directory, the first run of the script will fail.
+
+```sh
+Install problem:
+    Cannot put test file into iRODS:
+        ERROR: putUtil: put error for /eveZone/home/rods/irods_put_eve-server.tmp, status = -520013 status = -520013 UNIX_FILE_MKDIR_ERR, Permission denied
+Found 4 processes:
+	Stopping process id 3472
+	Stopping process id 3474
+	Stopping process id 3498
+	Stopping process id 3501
+
+Abort.
+```
+
+We can fix this with:
+
+```sh
+sudo chown -R irods /irodsVault
+sudo /var/lib/irods/packaging/setup_irods.sh
+```
+All of your settings were saved in the first run. So you only need to re-enter the two passwords.
 
 ### 8. Login to iRODS
 
