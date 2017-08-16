@@ -2,7 +2,7 @@
 This document describes how to install iRODS4.1 on a Ubuntu machine with a postgresql 9.3 database as iCAT.
 
 ## Environment
-Ubuntu 14.04 server
+The documentation is tested with an Ubuntu 14.04 server and contains some remarks and links to what needs to be changed when working on Ubuntu 16.04.
 
 ##Prerequisites
 ### 1. Update and upgrade if necessary
@@ -52,6 +52,7 @@ COMMIT
 ```sh
 /etc/init.d/iptables-persistent restart
 ```
+For Ubuntu 16.04 you can follow [this guide](http://dev-notes.eu/2016/08/persistent-iptables-rules-in-ubuntu-16-04-xenial-xerus/) to change your default iptables configuration.
 
 Create a user under which you want to work and add the account to the sudoers file.
 
