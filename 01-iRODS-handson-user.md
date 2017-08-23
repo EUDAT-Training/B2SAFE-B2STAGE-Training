@@ -257,7 +257,7 @@ Let's create a subcollection, put some data into it and open the collection for 
 ```sh
 imkdir DataCollection
 ichmod inherit DataCollection
-ichmod ichmod read bob DataCollection
+ichmod read bob DataCollection
 ```
 With *ichmod inherit* we assure that all data and subcollections in *DataCollection* will inherit their ACL from the parent collection. After that we grant read-access to another user in the iRODS system. Data tat was put into the collection before the *inherit* flag was set, will keep their original ACLs.
 
