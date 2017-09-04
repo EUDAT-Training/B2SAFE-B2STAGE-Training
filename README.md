@@ -24,6 +24,9 @@ File | Target audience | Status
 <span class="css-truncate css-truncate-target"><a href="/09-install-B2STAGE.md" class="js-navigation-open" title="09-install-B2STAGE.md">09-install-B2STAGE.md</a></span> | site admins
 <span class="css-truncate css-truncate-target"><a href="/10-using-B2STAGE.md" class="js-navigation-open" title="10-using-B2STAGE.md">10-using-B2STAGE.md</a></span> | researchers, last exercise is a joint effort between researchers and site admins
 
+## Accesss to the EUDAT Training Testbed
+To get access to the training environment, please use the [EUDAT contact pages](https://eudat.eu/support-request?service=DOCUMENTATION); and provide some details on which community you are from and in which context you would like to follow the tutorial. 
+
 ## Set up
 During the tutorial site admins learn how to set up an infrastructure like indicated in the picture below. Users can make use of a pre-deployed instance of this infratructure on the EUDAT Training Sandbox. 
 
@@ -31,8 +34,6 @@ During the tutorial site admins learn how to set up an infrastructure like indic
 
 ### Users - Training
 Users can get access to a setup of virtual machines (VMs) like above. The tutorial will show them the functionality of single components and how to combine them in order to arrive at proper data management. Users can either choose to set up their personal computer to resemble the user interface machine or they can receive a login on a user interface VM on the training sandbox operated by the EUDAT User Documentation and Training Material team. Via the user interface machine they can access the first VM which contains an iRODS server, a gridFTP server, and the B2SAFE module. Another VM holds another iRODS server. Both iRODS grids are federtated and users can transfer data from one grid to the other. The user interface VM also provides the necessary python libraries to work with the *epicclient* and with B2HANDLE.
-
-To get access to the training environment, please use the [EUDAT contact pages](https://eudat.eu/support-request?service=DOCUMENTATION); and provide some details on which community you are from and in which context you would like to follow the tutorial. 
 
 The appropriate parts of the tutorial you can follow in the training environment are labeled with "researchers", "interested researchers" and "data managers" in the table above.
 
