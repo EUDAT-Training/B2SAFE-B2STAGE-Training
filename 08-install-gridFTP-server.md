@@ -59,7 +59,7 @@ echo "your.ip.num.ber <yourhostname>" >> /etc/hosts
 ## Installing the globus toolkit
 - Download the package
 ```sh
-wget http://toolkit.globus.org/ftppub/gt6/installers/repo/globus-toolkit-repo_latest_all.deb
+wget http://downloads.globus.org/toolkit/gt6/stable/installers/repo/deb/globus-toolkit-repo_latest_all.deb
 sudo dpkg -i globus-toolkit-repo_latest_all.deb
 sudo apt-get update
 ```
