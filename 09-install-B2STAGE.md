@@ -1,6 +1,13 @@
 # Installing the iRODS-DSI
 With the iRODS-DSI all commands executed via the gridFTP protocol will be directly forwarded to iRODS. That means that after the installation you will no longer be able to access the normal filesystem via this protocol. 
 A full installation and configuration guide is provided [here](https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP).
+This tutorial has been tested with
+
+- Ubuntu 14
+- iRODS 4.1.10
+- [B2STAGE 1.8](https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP/releases/tag/release-1.8)
+
+**NOTE** that the latest release of B2STAGE works only with iRODS version 4.2.1 or higher.
 
 ## Necessary system packages
 ```sh
