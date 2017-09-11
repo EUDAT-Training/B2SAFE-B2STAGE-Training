@@ -106,14 +106,31 @@ grant all privileges on database "ICAT" to irods;
 exit
 
 ```
-## Create the iRODS service account
-The installation of iRODS in centos looks for a specific unix user called *irods* under which iRODS should be installed. If that user is not created before installing the iRODS packages, iRODS will be installed under root.
+
+
+## (Optional) Create the iRODS service account
+The installation of iRODS in centos looks for a specific unix user called *irods* under which iRODS should be installed. Usually iRODS creates such a user by default. The service account is called *irods* and the there is an *irods* unix group. The service account will not have a home directory, but all files will be stored in */var/lib/irods*. 
+In some cases you might want to create the user manually and couple it to certain authentication methods:
 
 ```sh
-sudo adduser irods
+sudo adduser <service account name>
+```
+Please use in that case the service account name in the iRODS configuration.
+
+## Install iRODS
+We offer instructions for both iRODS 4.1.10 and for iRODS 4.2.1. Please choose the version you would like to install.
+
+In both cases iRODS will be installed under `/var/lib/irods` and `/etc/irods`. Currently, these folders belong to root. If you created an own service account you need to grant permissions:
+
+```sh
+sudo chown -R <service account name>:<service account name> /var/lib/irods 
+sudo chown -R <service account name>:<service account name> /etc/irods
 ```
 
-## Download and install iRODS
+
+
+
+### Download and install iRODS 4.1.10
 
 Download the iRODS server software and the database plugin and install the packages:
 
@@ -128,11 +145,16 @@ sudo yum install irods-icat-4.1.10-centos7-x86_64.rpm
 sudo yum install irods-database-plugin-postgres-1.10-centos7-x86_64.rpm
 ```
 
-iRODs will be installed under `/var/lib/irods` and `/etc/irods`. Currently, these folders belong to root. However, iRODS will be run under the user 'irods', we need to grant the user access to these two folders:
-
+### Download and install iRODS 4.2.1
+iRODS 4.2.1 can be installed with the package manager *yum*.
 ```sh
-sudo chown -R irods:irods /var/lib/irods 
-sudo chown -R irods:irods /etc/irods
+sudo rpm --import https://packages.irods.org/irods-signing-key.asc
+wget -qO - https://packages.irods.org/renci-irods.yum.repo | sudo tee /etc/yum.repos.d/renci-irods.yum.repo
+```
+Install the packages:
+```sh
+sudo yum install epel-release
+sudo yum install irods-server irods-database-plugin-postgres
 ```
 
 ## Create a folder that serves as iRODS Vault
@@ -142,17 +164,21 @@ By default the initial installation of iRODS creates the iRODS vault under
 
 ```sh
 sudo mkdir /irodsVault/
-sudo chown irods:irods /irodsVault/
+sudo chown <service account name>:<service account name> /irodsVault/
 ```
 
+If you are working with the standard service account that is yetto be created in the setup, the first time you want to start iRODS will fail, since the account has no access to the *Vault*. In this case set the permissions after the first run of the conguration script and rerun the script.
 
 ## Configure iRODS
-Configureation of iRODS is done by running the script:
+
+### Configure iRODS 4.1.10
+Configuration of iRODS is done by running the script:
 
 ```sh
 sudo /var/lib/irods/packaging/setup_irods.sh
 
 ```
+If you set a different iRODS service account name you will have to set it here when asked for it. By default the configuration script will use *irods*.
 You will be asked for information on the zone name, server, etc.
 Below we give an example configuration:
 
@@ -182,6 +208,37 @@ Database User:     irods
 Database Password: Not Shown
 ```
 If your postgresql server lies on the same machine as the iRODS server you can use `127.0.0.1` (the localhost) as address, otherwise provide the fully qualified domain name of the machine with the postgresql server.
+
+### Configure iRODS 4.2.1
+
+Start the configuration script:
+```sh
+sudo python /var/lib/irods/scripts/setup_irods.py
+```
+
+You will be asked for the iRODS service account name. By default this will be *irods*.
+If you want to install an iRODS iCAT-enabled server choose option *1. provider*. Option 2 will only install an [iRODS resource server](https://docs.irods.org/4.1.10/manual/installation/).
+
+```sh
+iRODS user [irods]: <service account name>
+iRODS group [irods]: <service account name>
+
+Database Type: postgres
+ODBC Driver:   PostgreSQL
+Database Host: localhost
+Database Port: 5432
+Database Name: ICAT
+Database User: irods
+
+iRODS server's zone name [tempZone]: <zoneName>
+iRODS server's port [1247]:
+iRODS port range (begin) [20000]:
+iRODS port range (end) [20199]:
+Control Plane port [1248]:
+Schema Validation Base URI (or off) [file:///var/lib/irods/configuration_schemas]:
+iRODS server's administrator username [rods]: <irodsadmin name>
+```
+
 
 ## Login to iRODS
 To test iRODS we login with the irods admin account *rods*:
