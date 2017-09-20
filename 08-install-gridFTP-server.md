@@ -190,12 +190,18 @@ Machines from which you want to get access need in their */etc/hosts* file an en
 For production it is advised to create new server certificates and replace the *CN* (Common name) with the fully qualified domain name of the server (Step **Creating a certificate authority (CA) on the server**).
 
 ## Trouble shooting
-When accessing the gridFTP server from outside, you might run into the problem that the server just listens on ipv6 interfaces. To change this, add the following line to the *gridftp.conf*:
+- When accessing the gridFTP server from outside, you might run into the problem that the server just listens on ipv6 interfaces. To change this, add the following line to the *gridftp.conf*:
 
-```sh
-control_interface 0.0.0.0
-```
-It forces the server to listen to all ipv4 interfaces.
+ ```sh
+ control_interface 0.0.0.0
+ ```
+ It forces the server to listen to all ipv4 interfaces.
+
+- Server needs to be restarted with
+ ```sh
+ sudo /etc/init.d/globus-gridftp-server restart
+ ```
+ Do not use `sudo service globus-gridftp-server restart`
 
 
 []()|[]()
