@@ -30,7 +30,7 @@ To get access to the training environment, please use the [EUDAT contact pages](
 ## Set up
 During the tutorial site admins learn how to set up an infrastructure like indicated in the picture below. Users can make use of a pre-deployed instance of this infratructure on the EUDAT Training Sandbox. 
 
-We provide a detailed tutorial for **iRODS 4.1.10 on Ubuntu 14** in the main modules. However, since Ubuntu 14 is out of support but there are no official packages for Ubuntu 16 yet, we provide details on the setup below for **CentOS 7.X and iRODS 4.2.1** in [TrainingInstances-iRODS4.2.1](https://github.com/EUDAT-Training/B2SAFE-B2STAGE-Training/tree/develop/TrainingInstances-iRODS4.2.1).
+We provide a detailed tutorial for **iRODS 4.1.10 on Ubuntu 14** in the main modules. However, since Ubuntu 14 is out of support but there are no official packages for Ubuntu 16 yet, we provide details on the setup below for **CentOS 7.X and iRODS 4.2.1** in [TrainingInstances-iRODS4.2.1](https://github.com/EUDAT-Training/B2SAFE-B2STAGE-Training/tree/develop/TrainingInstances-iRODS4.2.1). In that case please replace all Modules for installations with the instrictions provided there.
 
 <img align="centre" src="img/VM-setup.png" width="800px">
 
