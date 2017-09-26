@@ -173,7 +173,7 @@ irule -vF eudatGetV.r
 ```
  should return
 ```sh
-*version = 3.1-0
+*version = 4.X-X
 ```
 
 #### Generating PIDs

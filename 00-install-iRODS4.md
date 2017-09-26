@@ -1,5 +1,6 @@
 # Installation of iRODS 4.1
 This document describes how to install iRODS4.1 on a Ubuntu machine with a postgresql 9.3 database as iCAT.
+We also provide a guide how to install [iRODS 4.1.10 and 4.2.1 on Centos 7](ExampleTrainings/iRODS-SysAdmin-Training/iRODS-CentOS-install.md)
 
 ## Environment
 The documentation is tested with an Ubuntu 14.04 server and contains some remarks and links to what needs to be changed when working on Ubuntu 16.04.

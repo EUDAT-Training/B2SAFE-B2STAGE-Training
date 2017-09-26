@@ -59,7 +59,7 @@ echo "your.ip.num.ber <yourhostname>" >> /etc/hosts
 ## Installing the globus toolkit
 - Download the package
 ```sh
-wget http://toolkit.globus.org/ftppub/gt6/installers/repo/globus-toolkit-repo_latest_all.deb
+wget http://downloads.globus.org/toolkit/gt6/stable/installers/repo/deb/globus-toolkit-repo_latest_all.deb
 sudo dpkg -i globus-toolkit-repo_latest_all.deb
 sudo apt-get update
 ```
@@ -115,7 +115,7 @@ openssl x509 -in /etc/grid-security/hostcert.pem -text -noout
 
 ## Creating user certificates and editing the gridmap file
 Users need to have an own user certificate in order to transfer data to the gridFTP endpoint. This is how you create and sign a user certificate.
-- As user create a user certificate:
+- As user on the server that runs gridFTP create a user certificate:
 ```sh
 grid-cert-request
 ```
@@ -123,17 +123,17 @@ This will create the *.globus* folder in your *home* directory and create a *req
 
 A user with sudo rights needs to sign the request and create the user certificate:
 ``` 
-grid-ca-sign -in /<path to>/.globus/usercert_request.pem -out /<path to>/.globus/usercert.pem
+sudo grid-ca-sign -in /<path to>/.globus/usercert_request.pem -out /<path to>/.globus/usercert.pem
 ```
 - In case the user has no own account on the gridFTP server, a sudo user can create user key and user certificate.
-- Send the *usercert.pem* and the *userkey.pem* to the user. The user should store these two documents in */home/user/.globus/*.
+- The the *usercert.pem* and the *userkey.pem* needs to placed in a folder */home/user/.globus/* on the machine from which the user wants to connect to the gridFTP server (in the of this repository you need to transfer these two files to the user interface machine).
 
 - Add the subject of the user to the gridmap file
 ```sh
 grid-cert-info -subject
-grid-mapfile-add-entry -dn "/O=Grid/OU=GlobusTest/OU=simpleCA-irods4.alice/OU=Globus Simple CA/CN=alice" -ln alice
+sudo grid-mapfile-add-entry -dn "/O=Grid/OU=GlobusTest/OU=simpleCA-irods4.alice/OU=Globus Simple CA/CN=alice" -ln alice
 ```
- The flag *-ln* specifies a user on your linux system. Since we will use gridFTP to communicate to iRODS the ln-flag needs to specify the iRODS username rather than a linux user. For testing purposes, however, we will first map the subject to a linux user and later change it to the iRODS user name.
+ The flag *-ln* specifies a user on your unix system on the server runnning gridFTP. Since we will use gridFTP to communicate to iRODS the ln-flag needs to specify the iRODS username rather than a linux user, we will adjust that later. For testing purposes, however, we will first map the subject to a linux user and later change it to the iRODS user name.
 
 ## Configuring the gridFTP endpoint
 - Open the */etc/gridftp.conf* and add the control ports and some path for logging:
@@ -161,16 +161,16 @@ log_transfer "/var/log/globus-gridftp-server-transfer.log"
 
 
 ## Testing the gridFTP endpoint on the server
-- Switch to a user on your gridFTP server and copy the user certificate and key to the */home/<user>/.globus* directory
+- If you have not done so install the grid certificates to the *.globus* directory of a unix user on the gridFTP server. 
 ```sh
 mkdir .globus
 cd .globus
 ```
-- Make sure the certificates belong to *alice*
+- Make sure the certificates belong to the user (here *alice*)
 ```
 sudo chown alice:alice *
 ```
-- Initialise a proxy
+- Become the user and initialise a proxy
 ```sh
 grid-proxy-init
 ```
@@ -183,13 +183,25 @@ echo "kjsbdj" > /home/alice/test.txt
 globus-url-copy file:/home/alice/test.txt gsiftp://alice-server/tmp/test.txt
 ```
 
-## Trouble shooting
-When accessing the gridFTP server from outside, you might run into the problem that the server just listens on ipv6 interfaces. To change this, add the following line to the *gridftp.conf*:
+## Hostname, fully qualified name and grid certficates
 
-```sh
-control_interface 0.0.0.0
-```
-It forces the server to listen to all ipv4 interfaces.
+In this example we used the `hostname` to address the gridFTP server. The way to address the gridFTP server is set in the server certificates. The default setup uses the `hostname`. No matter from where you want to address and access the gridFTP endpoint on this server, you will have to use the `hostname`. When you try to get access from a different server via the internet that poses a problem. 
+Machines from which you want to get access need in their */etc/hosts* file an entry that maps the fully qualified domain name or IP address of the gridFTP server to the `hostname` of the gridFTP server.
+For production it is advised to create new server certificates and replace the *CN* (Common name) with the fully qualified domain name of the server (Step **Creating a certificate authority (CA) on the server**).
+
+## Trouble shooting
+- When accessing the gridFTP server from outside, you might run into the problem that the server just listens on ipv6 interfaces. To change this, add the following line to the *gridftp.conf*:
+
+ ```sh
+ control_interface 0.0.0.0
+ ```
+ It forces the server to listen to all ipv4 interfaces.
+
+- Server needs to be restarted with
+ ```sh
+ sudo /etc/init.d/globus-gridftp-server restart
+ ```
+ Do not use `sudo service globus-gridftp-server restart`
 
 
 []()|[]()
