@@ -103,7 +103,7 @@ auth_level 4
 Add to /etc/init.d/globus-gridftp-server
 
 ```
-LD_PRELOAD="$LD_PRELOAD:/usr/lib64/libglobus_gridftp_server.so:/home/alice/B2STAGE-GridFTP/libglobus_gridftp_server_iRODS.so"
+LD_PRELOAD="$LD_PRELOAD:/usr/lib/x86_64-linux-gnu/libglobus_gridftp_server.so:/home/alice/B2STAGE-GridFTP/libglobus_gridftp_server_iRODS.so"
 ```
 
 Restart the gridFTP server:
