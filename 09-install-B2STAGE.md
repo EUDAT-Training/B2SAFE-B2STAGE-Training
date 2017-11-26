@@ -32,6 +32,13 @@ cd ..
 ```
 
 ```sh
+wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add -
+echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/renci-irods.list
+sudo apt-get update
+irods-externals-*
+```
+
+```sh
 git clone https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP.git
 ```
 
@@ -44,6 +51,7 @@ cp setup.sh.template setup.sh
 Edit the *setup.sh*, minimal setup:
 
 ```sh
+export PATH=/opt/irods-externals/cmake3.5.2-0/bin:$PATH
 export GLOBUS_LOCATION="/usr"
 export IRODS_PATH="/usr"
 export DEST_LIB_DIR="/home/alice/iRODS_DSI"
