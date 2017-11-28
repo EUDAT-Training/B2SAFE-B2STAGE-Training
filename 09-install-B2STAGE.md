@@ -5,9 +5,9 @@ This tutorial has been tested with
 
 - Ubuntu 14
 - iRODS 4.1.10
-- [B2STAGE 1.8](https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP/releases/tag/release-1.8)
+- [B2STAGE (version from November 2016)](TODO)
 
-**NOTE** that the latest release of B2STAGE works only with iRODS version 4.2.1 or higher.
+**NOTE** that the latest release of B2STAGE works only with iRODS version 4.2.1 or higher. If you are using iRODS 4.2.1 on centOS or Ubuntu 14 you can follow the installation guide in the [development repository](https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP).
 
 ## Necessary system packages
 ```sh
