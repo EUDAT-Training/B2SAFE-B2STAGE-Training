@@ -31,15 +31,10 @@ sudo apt-get update
 cd ..
 ```
 
+Download B2STAGE:
 ```sh
-wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add -
-echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/renci-irods.list
-sudo apt-get update
-irods-externals-*
-```
-
-```sh
-git clone https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP.git
+wget TODO
+tar -xzf B2STAGE-GRIDFTP-ubuntu14.tgz
 ```
 
 ### Installation
@@ -51,7 +46,6 @@ cp setup.sh.template setup.sh
 Edit the *setup.sh*, minimal setup:
 
 ```sh
-export PATH=/opt/irods-externals/cmake3.5.2-0/bin:$PATH
 export GLOBUS_LOCATION="/usr"
 export IRODS_PATH="/usr"
 export DEST_LIB_DIR="/home/alice/iRODS_DSI"
@@ -117,7 +111,7 @@ LD_PRELOAD="$LD_PRELOAD:/usr/lib/x86_64-linux-gnu/libglobus_gridftp_server.so:/h
 
 Restart the gridFTP server:
 ```sh
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/alice/iRODS_DSI/"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/alice/B2STAGE-GridFTP/"
 /etc/init.d/globus-gridftp-server restart
 ```
 
