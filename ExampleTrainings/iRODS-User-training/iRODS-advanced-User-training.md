@@ -503,7 +503,7 @@ We see that this kind of for-loops use statements similar to the ones in the *iq
 
 ### Exercise (15min)
 Write a rule that finds all data objects and all collections that carry the same metadata key.
-E.g. there is a collection labeled with the attribute 'Easter' and there are some files carrying the same attribute. Make the attribute a variable.
+E.g. there is a collection labeled with the attribute 'RIDDLE' and there are some files carrying the same attribute. Make the attribute a variable.
 
 ### Solution framework
 
@@ -522,7 +522,7 @@ queryall{
     }
 }
 
-input *var='Easter'
+input *var='RIDDLE'
 output ruleExecOut
 ```
 
@@ -546,7 +546,7 @@ queryall{
 
 }
 
-input *var='Easter'
+input *var='RIDDLE'
 output ruleExecOut
 ```
 
@@ -1171,7 +1171,7 @@ replicate(*source, *dest, *status){
     # Only proceed when source_type matches "collection"
     if(*source_type == "-c"){
         msiCollRsync(*source, *destination,
-            "null","IRODS_TO_IRODS",*status);
+   		"null","IRODS_TO_IRODS",*status);
     }
     else{
        writeLine("stdout", "Expected Collection, got data object.");
@@ -1179,7 +1179,7 @@ replicate(*source, *dest, *status){
     }
 }
 
-INPUT *collection="archive", *destination="/bobZone/home/di4r-user1#aliceZone/BACKUP"
+INPUT *collection="archive", *destination=""
 OUTPUT ruleExecOut
 
 ```
