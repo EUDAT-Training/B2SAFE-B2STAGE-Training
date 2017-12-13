@@ -3,11 +3,10 @@ With the iRODS-DSI all commands executed via the gridFTP protocol will be direct
 A full installation and configuration guide is provided [here](https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP).
 This tutorial has been tested with
 
-- Ubuntu 14
+- Ubuntu 14/CentOS7
 - iRODS 4.1.10
-- [B2STAGE 1.8](https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP/releases/tag/release-1.8)
 
-**NOTE** that the latest release of B2STAGE works only with iRODS version 4.2.1 or higher.
+**NOTE** that the latest release of B2STAGE works only with iRODS version 4.2.1 or higher. If you are using iRODS 4.2.1 on centOS or Ubuntu 14 you can follow the installation guide in the [development repository](https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP).
 
 ## Necessary system packages
 ```sh
@@ -28,8 +27,10 @@ sudo dpkg -i irods-dev-4.1.10-ubuntu14-x86_64.deb
 wget ftp://ftp.renci.org/pub/irods/releases/4.1.10/ubuntu14/irods-runtime-4.1.10-ubuntu14-x86_64.deb
 sudo dpkg -i irods-runtime-4.1.10-ubuntu14-x86_64.deb
 sudo apt-get update
+cd ..
 ```
 
+Download B2STAGE:
 ```sh
 git clone https://github.com/EUDAT-B2STAGE/B2STAGE-GridFTP.git
 ```
@@ -56,6 +57,7 @@ source setup.sh
 cmake CMakeLists.txt
 make
 ```
+You might encounter errors here. Please refer to the "Known issues" below.
 
 ### Configuration
 All commands coming from gridFTP entering iRODS will be executed as the same irods user. This userprofile is defined under *root*:
@@ -98,12 +100,20 @@ $LD_LIBRARY_PATH "$LD_LIBRARY_PATH:/home/alice/iRODS_DSI/"
 $irodsConnectAsAdmin "rods"
 load_dsi_module iRODS
 auth_level 4
+
+$HOME /root
+```
+
+Add to /etc/init.d/globus-gridftp-server
+
+```
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/alice/B2STAGE-GridFTP/"
+export LD_PRELOAD="$LD_PRELOAD:/usr/lib64/libglobus_gridftp_server.so:/home/admincentos/B2STAGE-GridFTP/libglobus_gridftp_server_iRODS.so"
 ```
 
 Restart the gridFTP server:
 ```sh
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/ubuntu/iRODS_DSI/B2STAGE-GridFTP/"
-/etc/init.d/globus-gridftp-server restart
+sudo /etc/init.d/globus-gridftp-server restart
 ```
 
 ### Adjusting the grid-mapfile
@@ -199,6 +209,41 @@ irods://192.168.17.53:1247/aliceZone/home/alice/testfile.txt
 ```
 
 To make sure that B2SAFE mints the PIDs correctly,  you need to adjust the serverID in */opt/eudat/b2safe/rulebase/local.re*.
+
+## Known errors
+(Documented Dec 2017)
+
+### Errors while *make*
+- clientLogin (1)
+  ```sh
+    /home/alice/B2STAGE-GridFTP/DSI/globus_gridftp_server_iRODS.c:706:5: error: too few arguments to function ‘clientLogin’
+     status = clientLogin(iRODS_handle->conn);
+  ```
+  Please edit the file `/home/alice/B2STAGE-GridFTP/DSI/globus_gridftp_server_iRODS.c`:
+  Replace 
+  ```sh
+  status = clientLogin(iRODS_handle->conn);
+  ```
+  with
+  ```sh
+  status = clientLogin(iRODS_handle->conn, NULL, NULL);
+  ```
+- clientLogin (2)
+  ```sh
+  /home/alice/B2STAGE-GridFTP/DSI/libirodsmap.c:46:5: error: too few arguments to function ‘clientLogin’
+     rc = clientLogin(rcComm);
+  ```
+  Please edit the file `/home/admincentos/B2STAGE-GridFTP/DSI/libirodsmap.c`:
+  Replace
+  ```sh
+  rc = clientLogin(rcComm);
+  ```
+  with
+  ```sh
+  rc = clientLogin(rcComm, NULL, NULL);
+  ```
+  
+
 
 []()|[]()|[]()
 ----|----|----

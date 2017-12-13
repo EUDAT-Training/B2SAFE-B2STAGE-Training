@@ -5,7 +5,7 @@ We also provide a guide how to install [iRODS 4.1.10 and 4.2.1 on Centos 7](Exam
 ## Environment
 The documentation is tested with an Ubuntu 14.04 server and contains some remarks and links to what needs to be changed when working on Ubuntu 16.04.
 
-##Prerequisites
+## Prerequisites
 ### 1. Update and upgrade if necessary
 ```sh
 apt-get update
