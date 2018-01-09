@@ -87,7 +87,7 @@ After running the configuration script the resulting json file */opt/eudat/b2saf
     "HTTPS_verify": "False"
 }
 ```
-For a testing server you might want to set *AUTHZ_ENABLED* and *MSIFREE_ENABLED* to false.
+For a testing server you might want to set *AUTHZ_ENABLED* and *MSG_QUEUE_ENABLED* to false.
 
 By default B2SAFE uses the python script *epicclient.py* which does not make use of the B2HANDLE python library. Copy *epicclient2.py* to *epicclient.py*:
  
