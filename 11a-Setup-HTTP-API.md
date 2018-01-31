@@ -60,7 +60,7 @@ Now you can check from any client machine whether the endpointis up and running:
  ```
  curl -i <IP or FQDN>:8080/api/status
  ```
-- Web browser check: type in <IP or FQDN>:8080/api/status
+- Web browser check: type in \<IP or FQDN\>:8080/api/status
   
 \<IP or FQDN\> is the IP address or fully qualified domain name of your machine. If you are working locally you can also substitute them with 'localhost'.
   
@@ -83,7 +83,7 @@ The endpoint for Swagger is http://\<IP or FQDN\>/?docExpansion=none. Users can 
 The HTTP API enables features that are dependent on the B2SAFE module. For example users can inspect metadata created by the B2SAFE service and access data by Persistent identifiers. To this end the iRODS instance behind the HTTP API needs to be enabled with the B2SAFE rulebase and B2SAFE behaviour, e.g. generation of PIDs, needs to be enabled by iRODS event hooks.
 
 **NOTE** The HTTP API does not allow you to specifically execute B2SAFE behaviour like data replication or PID creation. 
-To show the connection between the HTTP API and B2SAFE, we will install the B2SAFE rulebase and configure an event hook for PID creation and replication. Our data policy is: Every data object and collection under `/tempZone/home/\<user\>/b2safe` will be replicated to `/tempZone/home/\<user\>/b2replication`.
+To show the connection between the HTTP API and B2SAFE, we will install the B2SAFE rulebase and configure an event hook for PID creation and replication. Our data policy is: Every data object and collection under `/tempZone/home/<user>/b2safe` will be replicated to `/tempZone/home/<user>/b2replication`.
 
 ### Prerequisites
 - B2HANDLE python library
