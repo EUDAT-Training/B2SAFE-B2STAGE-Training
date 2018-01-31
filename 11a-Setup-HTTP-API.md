@@ -62,7 +62,7 @@ Now you can check from any client machine whether the endpointis up and running:
  ```
 - Web browser check: type in <IP or FQDN>:8080/api/status
   
-<IP or FQDN> is the IP address or fully qualified domain name of your machine. If you are working locally you can also substitute them with 'localhost'.
+\<IP or FQDN\> is the IP address or fully qualified domain name of your machine. If you are working locally you can also substitute them with 'localhost'.
   
 If the command delivers a:
 ```sh
@@ -75,7 +75,7 @@ To start the Swagger User Interface, an API specification where users can test c
 ```sh
 sudo rapydo interfaces swagger &
 ```
-The endpoint for Swagger is http://<IP or FQDN>/?docExpansion=none. Users can access this endpoint by webbrowser.
+The endpoint for Swagger is http://\<IP or FQDN\>/?docExpansion=none. Users can access this endpoint by webbrowser.
 
 **NOTE** that Swagger is using *localhost*. That measn that when you installed the HTTP API on a rmote server, the Swagger interface will not find the API secifications. (Status Jan 2018)
 
@@ -83,7 +83,7 @@ The endpoint for Swagger is http://<IP or FQDN>/?docExpansion=none. Users can ac
 The HTTP API enables features that are dependent on the B2SAFE module. For example users can inspect metadata created by the B2SAFE service and access data by Persistent identifiers. To this end the iRODS instance behind the HTTP API needs to be enabled with the B2SAFE rulebase and B2SAFE behaviour, e.g. generation of PIDs, needs to be enabled by iRODS event hooks.
 
 **NOTE** The HTTP API does not allow you to specifically execute B2SAFE behaviour like data replication or PID creation. 
-To show the connection between the HTTP API and B2SAFE, we will install the B2SAFE rulebase and configure an event hook for PID creation and replication. Our data policy is: Every data object and collection under `/tempZone/home/<user>/b2safe` will be replicated to `/tempZone/home/<user>/b2replication`.
+To show the connection between the HTTP API and B2SAFE, we will install the B2SAFE rulebase and configure an event hook for PID creation and replication. Our data policy is: Every data object and collection under `/tempZone/home/\<user\>/b2safe` will be replicated to `/tempZone/home/\<user\>/b2replication`.
 
 ### Prerequisites
 - B2HANDLE python library
@@ -108,13 +108,12 @@ berods
 cd
 ```
 - Check out the latest B2SAFE release
-
-	```sh
-	git clone https://github.com/EUDAT-B2SAFE/B2SAFE-core.git
-	cd ~/B2SAFE-core/packaging
-	./create_deb_package.sh
-	exit
-	```
+ ```sh
+ git clone https://github.com/EUDAT-B2SAFE/B2SAFE-core.git
+ cd ~/B2SAFE-core/packaging
+ ./create_deb_package.sh
+ exit
+ ```
 - Install the package as *root*:
   ```sh
   dpkg -i /home/irods/debbuild/irods-eudat-b2safe_4.1-0.deb
@@ -178,7 +177,6 @@ Now we install an event hook such that all data under */\<zonename\>/home/\<user
                 "true", "true", *response);
         }
  }
-acPostProcForPut {}
  ```
  to the file.
  **NOTE** that PID creation for replicas does not work for the moment (Jan 2018)
@@ -194,7 +192,6 @@ acPostProcForPut {}
 		EUDATCreatePID("None", $objPath, "None", "None", "false", *newPID);
         }
  }
-acPostProcForPut {}
  ```
 
 ### Testing the event hooks
