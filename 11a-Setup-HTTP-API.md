@@ -143,6 +143,26 @@ Adjust
   cd /opt/eudat/b2safe/packaging/
   ./install.sh
   ```
+Finally we need to declare all the servername mappings to iRODS. To this end you need to edit the file */etc/irods/hosts_config.json*:
+ ```sh
+ {
+    "schema_name": "hosts_config",
+    "schema_version": "v3",
+    "host_entries": [
+    {
+        "address_type" : "local",
+        "addresses" : [
+            {"address" : "172.21.0.2"},
+            {"address" : "172.21.0.3"},
+            {"address" : "rodserver.dockerized.io"},
+            {"address" : "localhost"}
+        ]
+    }
+    ]
+  }
+ ```
+ 
+  
 ### Testing B2HANDLE and the epicclient script
 
 We need to make sure that PIDs can be created. Under the irods account (*berods*) in the icat docker container do:
