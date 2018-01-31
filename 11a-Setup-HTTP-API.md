@@ -233,6 +233,15 @@ We are going to test the event hooks first through triggering them with the icom
  ```
 Because of the synchronous PID creation both commands can take some time.
 
+## Local B2SAFE users
+The installation comes with a *guest* account which is known by the local HTTP API database who will later get an API token directly from B2ACCESS via the */auth/login* endpoint of the HTTP API. We can also create iRODS accounts and give them a password like this:
+
+```sh
+iadmin mkuser alice rodsuser
+iadmin moduser alice password <securepw>
+```
+These are local users for which we can also create an API token via a different HTTP API endpoint namely */auth/b2safeproxy*. So users need to know what kind of an account they have and which endpoint to use to get an API token.
+
 Now we are ready to test the HTTP API and trigger PID creation and relpication by uploading data to the correct collections to iRODS [see next chapter](11b-HTTP-API-handson-user.md).
 
 
