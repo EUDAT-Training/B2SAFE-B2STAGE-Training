@@ -76,7 +76,9 @@ To start the Swagger User Interface, an API specification where users can test c
 sudo rapydo interfaces swagger &
 ```
 The endpoint for Swagger is http://<IP or FQDN>/?docExpansion=none. Users can access this endpoint by webbrowser.
-  
+
+**NOTE** that Swagger is using *localhost*. That measn that when you installed the HTTP API on a rmote server, the Swagger interface will not find the API secifications. (Status Jan 2018)
+
 ## HTTP API and B2SAFE
 The HTTP API enables features that are dependent on the B2SAFE module. For example users can inspect metadata created by the B2SAFE service and access data by Persistent identifiers. To this end the iRODS instance behind the HTTP API needs to be enabled with the B2SAFE rulebase and B2SAFE behaviour, e.g. generation of PIDs, needs to be enabled by iRODS event hooks.
 
@@ -157,9 +159,9 @@ If you receive an output like this:
 ```
 the PID creation works.
 
-### Installing the event hook
-Now we install an event hook such that all data under */<zonename>/home/<user>/b2safe* is replicated to */<zonename>/home/<user>/b2replication*. By this data and collections receive a PID and several metadata entries are created upon invocation.
- 
+### Installing the b2safe replication event hook
+Now we install an event hook such that all data under */\<zonename\>/home/\<user\>/b2safe* is replicated to */\<zonename\>/home/\<user\>/b2replication*. By this data and collections receive a PID and several metadata entries are created upon invocation.
+
  ```sh
  vim /etc/irods/core.re
  ``` 
@@ -179,5 +181,45 @@ Now we install an event hook such that all data under */<zonename>/home/<user>/b
 acPostProcForPut {}
  ```
  to the file.
+ **NOTE** that PID creation for replicas does not work for the moment (Jan 2018)
+ 
+ ### Eventhook for PID creation only
+ This event hook will create PIDs and checksums for all data objects (not collections) under the collection *PID*.
+ 
+  ```c
+ acPostProcForPut {
+        ON($objPath like "/$rodsZoneClient/home/$userNameClient/PID/*"){
+                writeLine("serverLog","DEBUG PID creation");
+		msiSysChksumDataObj;
+		EUDATCreatePID("None", $objPath, "None", "None", "false", *newPID);
+        }
+ }
+acPostProcForPut {}
+ ```
+
+### Testing the event hooks
+We are going to test the event hooks first through triggering them with the icommands.
+- Create the collections which trigger the event hook
+ ```sh
+ imkdir b2safe
+ imkdir PID
+ ```
+- Create a test collection with one file
+ ```sh
+ mkdir myColl
+ echo "my test file" > myColl/test.txt
+ ```
+- Now upload the collection to b2safe or PID
+ ```sh
+ iput -r myColl PID
+ iput -r myColl b2safe
+ ```
+Because of the synchronous PID creation both commands can take some time.
+
+Now we are ready to test the HTTP API and trigger PID creation and relpication by uploading data to the correct collections to iRODS [see next chapter](11b-HTTP-API-handson-user.md).
+
+
+ 
+ 
 
 
