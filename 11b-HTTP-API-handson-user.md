@@ -210,7 +210,7 @@ curl -X DELETE -H "Authorization: Bearer $TOKEN" \
   $SERVER/api/registered/tempZone/home/alice/upload
 ```
 
-all data will be gone and we have again our empty home collection. Note, if you assigned PIDs to data and colections, the PIDs will still existi and possibly point to a none xisting location.
+all data will be gone and we have again our empty home collection. Note, if you assigned PIDs to data and collections, the PIDs will still exist and possibly point to a none existing location.
 
 
 
