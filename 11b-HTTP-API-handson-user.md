@@ -176,6 +176,41 @@ curl -H "Authorization: Bearer $TOKEN" $SERVER/api/registered/tempZone/home/alic
 
 The HTTP API lists all data in the collection, here our file we upoaded previously. Additionally uder the endpoint *registered*, the command lists as metadata all B2SAFE-specific metadata fields. Since B2SAFE is not installed or has not been called on this data object yet all of the metadata fields are empty.
 
+### Downloading data
+We can now also download the file:
+
+```sh
+mkdir API-downloads
+curl -o API-downloads/downloaded.png -H "Authorization: Bearer $TOKEN" $SERVER/api/registered/tempZone/home/alice/upload/my.png?download=true
+```
+Open the file under *API-downloads*.
+
+### Deleting files
+The HTTP API also supports the deletion of files and collections. However, when using PIDs, deletion should only take place according to the data management and PID policies. Be careful of what you delete!
+
+Let us try to delete the whole collection:
+```sh
+curl -X DELETE -H "Authorization: Bearer $TOKEN" \
+  $SERVER/api/registered/tempZone/home/alice/upload
+```
+You will receive an answer
+```
+"status": 400
+"Directory is not empty"
+```
+
+If we first delete the object
+```sh
+curl -X DELETE -H "Authorization: Bearer $TOKEN" \
+  $SERVER/api/registered/tempZone/home/alice/upload/my.png
+```
+And then again the collection
+```sh
+curl -X DELETE -H "Authorization: Bearer $TOKEN" \
+  $SERVER/api/registered/tempZone/home/alice/upload
+```
+
+all data will be gone and we have again our empty home collection. Note, if you assigned PIDs to data and colections, the PIDs will still existi and possibly point to a none xisting location.
 
 
 
