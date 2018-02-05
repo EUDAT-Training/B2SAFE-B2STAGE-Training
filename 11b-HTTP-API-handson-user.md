@@ -77,7 +77,8 @@ We see that our data collection in iRODS is empty.
 Now we can create a new collection in the domain registered:
 
 ```
-curl -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{"path":"/tempZone/home/alice/upload"}' $SERVER/api/registered
+curl -X POST -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" \
+-d '{"path":"/tempZone/home/alice/upload"}' $SERVER/api/registered
 
 {
   "Meta": {
@@ -137,7 +138,7 @@ Note, the HTTP API does not support upload of directories or recursive uploads.
 Now we can again list the collection *upload*:
 
 ```sh
-curl -H "Authorization: Bearer $TOKEN" $SERVER/api/registered/tempZone/home/alice
+curl -H "Authorization: Bearer $TOKEN" $SERVER/api/registered/tempZone/home/alice/upload
 
 {
   "Meta": {
@@ -173,7 +174,7 @@ curl -H "Authorization: Bearer $TOKEN" $SERVER/api/registered/tempZone/home/alic
 }
 ```
 
-The HTTP API lists all data in the collection, here our file we upoaded previously. Additionally, it lists as metadata all B2SAFE-specific metadata fields. Since B2SAFE is not installed or has not been called on this data object yet all of the metadata fields are empty.
+The HTTP API lists all data in the collection, here our file we upoaded previously. Additionally uder the endpoint *registered*, the command lists as metadata all B2SAFE-specific metadata fields. Since B2SAFE is not installed or has not been called on this data object yet all of the metadata fields are empty.
 
 
 
