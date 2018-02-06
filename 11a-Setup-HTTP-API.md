@@ -252,7 +252,7 @@ sudo rapydo interfaces swagger &
 ```
 The interface can be accessed via webbrowser `http://<IP or FQDN>/?docExpansion`. You will ridected to the swagger page on that server. In the development mode swagger looks by default under `localhost' for the API specifications. If you are working remotely you will need to adjust this by typing `http://<IP or FQDN>:8080/api/specs` in the search field on top of the page.
 
-Now users can also send requests to the iRODS server by this graphical interface.
+Now users can also send requests to the iRODS server through the swagger interface.
 
  
  
