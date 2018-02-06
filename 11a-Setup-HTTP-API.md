@@ -244,6 +244,15 @@ These are local users for which we can also create an API token via a different 
 
 Now we are ready to test the HTTP API and trigger PID creation and relpication by uploading data to the correct collections to iRODS [see next chapter](11b-HTTP-API-handson-user.md).
 
+## Enabling Swagger
+The HTTP API comes with a graphical representation and definition of the API through a swagger interface.
+To start the swagger interface do:
+```sh
+sudo rapydo interfaces swagger &
+```
+The interface can be accessed via webbrowser `http://<IP or FQDN>/?docExpansion`. You will ridected to the swagger page on that server. In the development mode swagger looks by default under `localhost' for the API specifications. If you are working remotely you will need to adjust this by typing `http://<IP or FQDN>:8080/api/specs` in the search field on top of the page.
+
+Now users can also send requests to the iRODS server by this graphical interface.
 
  
  
