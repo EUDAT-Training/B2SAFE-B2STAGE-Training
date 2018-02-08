@@ -47,6 +47,7 @@ sudo iptables -A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT
 sudo iptables -A INPUT -p tcp -m tcp --dport 1247 -j ACCEPT
 sudo iptables -A INPUT -p tcp -m tcp --dport 1248 -j ACCEPT
+sudo iptables -A INPUT -p tcp -m tcp --dport 5432 -j ACCEPT
 sudo iptables -A INPUT -p tcp -m tcp --dport 20000:20199 -j ACCEPT
 sudo iptables -A INPUT -p icmp -j ACCEPT
 sudo iptables -P INPUT DROP
