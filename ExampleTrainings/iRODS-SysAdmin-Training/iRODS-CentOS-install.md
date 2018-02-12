@@ -50,8 +50,8 @@ sudo iptables -A INPUT -p tcp -m tcp --dport 1248 -j ACCEPT
 sudo iptables -A INPUT -p tcp -m tcp --dport 5432 -j ACCEPT
 sudo iptables -A INPUT -p tcp -m tcp --dport 20000:20199 -j ACCEPT
 sudo iptables -A INPUT -p icmp -j ACCEPT
-sudo iptables -P INPUT DROP
-sudo iptables -P FORWARD DROP
+sudo iptables -A INPUT -j LOG
+sudo iptables -A INPUT -j DROP
 ```
 Save the firewall configuration and restart the server:
 
