@@ -150,15 +150,16 @@ sudo yum install irods-database-plugin-postgres-1.10-centos7-x86_64.rpm
 Please install the following packages with yum:
 
 ```
-https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-jansson2.7-0-1.0-1.x86_64.rpm
-https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-libarchive3.1.2-0-1.0-1.x86_64.rpm
-https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-clang-runtime3.8-0-1.0-1.x86_64.rpm
-https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-zeromq4-14.1.3-0-1.0-1.x86_64.rpm
-https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-avro1.7.7-0-1.0-1.x86_64.rpm
-https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-boost1.60.0-0-1.0-1.x86_64.rpm
-https://packages.irods.org/yum/pool/centos7/x86_64/irods-runtime-4.2.1-1.x86_64.rpm
-https://packages.irods.org/yum/pool/centos7/x86_64/irods-icommands-4.2.1-1.x86_64.rpm
-https://packages.irods.org/yum/pool/centos7/x86_64/irods-server-4.2.1-1.x86_64.rpm
+wget
+https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-jansson2.7-0-1.0-1.x86_64.rpm \
+https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-libarchive3.1.2-0-1.0-1.x86_64.rpm \
+https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-clang-runtime3.8-0-1.0-1.x86_64.rpm \
+https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-zeromq4-14.1.3-0-1.0-1.x86_64.rpm \
+https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-avro1.7.7-0-1.0-1.x86_64.rpm \
+https://packages.irods.org/yum/pool/centos7/x86_64/irods-externals-boost1.60.0-0-1.0-1.x86_64.rpm \
+https://packages.irods.org/yum/pool/centos7/x86_64/irods-runtime-4.2.1-1.x86_64.rpm \
+https://packages.irods.org/yum/pool/centos7/x86_64/irods-icommands-4.2.1-1.x86_64.rpm \
+https://packages.irods.org/yum/pool/centos7/x86_64/irods-server-4.2.1-1.x86_64.rpm \
 https://packages.irods.org/yum/pool/centos7/x86_64/irods-database-plugin-postgres-4.2.1-1.x86_64.rpm
 ```
 
