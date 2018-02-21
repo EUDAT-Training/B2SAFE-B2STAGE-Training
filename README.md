@@ -23,6 +23,8 @@ File | Target audience | Status
 <span class="css-truncate css-truncate-target"><a href="/08-install-gridFTP-server.md" class="js-navigation-open" title="08-install-gridFTP-server.md">08-install-gridFTP-server.md</a></span> | site admins
 <span class="css-truncate css-truncate-target"><a href="/09-install-B2STAGE.md" class="js-navigation-open" title="09-install-B2STAGE.md">09-install-B2STAGE.md</a></span> | site admins
 <span class="css-truncate css-truncate-target"><a href="/10-using-B2STAGE.md" class="js-navigation-open" title="10-using-B2STAGE.md">10-using-B2STAGE.md</a></span> | researchers, last exercise is a joint effort between researchers and site admins
+[11a-Setup-HTTP-API.md](11a-Setup-HTTP-API.md) | site admins, scientific programmers | 
+[11b-HTTP-API-handson-user.md](11b-HTTP-API-handson-user.md) | researchers, scientific programmers | 
 
 ## Accesss to the EUDAT Training Testbed
 To get access to the training environment, please use the [EUDAT contact pages](https://eudat.eu/support-request?service=DOCUMENTATION); and provide some details on which community you are from and in which context you would like to follow the tutorial. 
