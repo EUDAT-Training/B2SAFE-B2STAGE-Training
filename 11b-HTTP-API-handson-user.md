@@ -217,8 +217,63 @@ curl -X DELETE -H "Authorization: Bearer $TOKEN" \
 
 all data will be gone and we have again our empty home collection. Note, if you assigned PIDs to data and collections, the PIDs will still exist and possibly point to a none existing location.
 
+## The *publish* endpoint
+The HTTP API offers to make data publicly available. It creates a landing page which can be accessed conveniently with a browser and from which files can be downloaded.
+Please note, the *publish* endpoint does not offer to publish data like the B2SAHRE service does, where the data ownership is transferred to a different party and the data is handled according to B2SHARE data policies. 
+Here, the user will still be the owner of the file and has full command over it, i.e. a user can remove his/her publicly accessible data. 
 
+We will demonstrate the usage of the *publish* endpoint on the B2STAGE HTTP API test instance. If you want to enable your own environment with that endpoint please make sure you:
+- Checked out the branch 1.0.2 or higher
+- Uncommented '# IRODS_ANONYMOUS: 1' in *projects/b2stage/project_configuration.yaml*, around line 89
 
+### Make data publicly accessible
+We can only put data to the *publish* endpoint which is already uploaded to one of the other endpoints e.g. the *registered* endpoint. Basically, we are not creating a new data object, we merely tag the existing data. The B2STAGE HTTP API then allows the iRODS 'anonymous' user access to the data file.
 
+- Upload to *registered*
+ ```sh
+ curl -X PUT -H "Authorization: Bearer $TOKEN" -F file=@/Users/christines/my.png \
+ $SERVER/api/registered/cinecaDMPZone1/home/<user>/my.png
+ ```
 
+- Make publicly accessible
+ ```sh
+ curl -X PUT -H "Authorization: Bearer $TOKEN" $SERVER/api/publish/cinecaDMPZone1/home/<user>/my.png
+ ```
+ You will receive an answer:
+ 
+ ```sh
+   "Response": {
+    "data": {
+      "published": true
+    },
+    "errors": null
+ ```
+ 
+ Now others can access the landing page of the data by 
+ 
+ `https://b2stage-test.cineca.it/api/public/cinecaDMPZone1/home/<user>/my.png`
+ 
+- Withdraw public access
+ As the owner of the publicly accessible file you can withdraw the data:
+ ```sh
+  curl -X DELETE -H "Authorization: Bearer $TOKEN" $SERVER/api/publish/cinecaDMPZone1/home/<user>/my.png
+ ```
+ which will return:
+ ```sh
+ "Response": {
+    "data": {
+      "published": false
+    },
+    "errors": null
+  }
+ ```
+ The link from above is not valid any longer. However, the data under the *registered* endpoint is still there and its B2SAFE metadata can be listed:
+ 
+ ```sh
+ curl -H "Authorization: Bearer $TOKEN" $SERVER/api/registered/cinecaDMPZone1/home/<user>/my.png
+ ```
+
+### Some notes
+- The HTTP API does not yet support making iRODS collections publicly accessible.
+- When data is removed from the *registered* endpoint, it will also no longer be available under the *publish* endpoint.
 
