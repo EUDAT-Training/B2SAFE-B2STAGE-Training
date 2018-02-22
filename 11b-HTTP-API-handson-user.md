@@ -190,6 +190,18 @@ curl -o API-downloads/downloaded.png -H "Authorization: Bearer $TOKEN" $SERVER/a
 ```
 Open the file under *API-downloads*.
 
+### Up and downloading large files
+When you have larger files to up and download you can define `-H "Content-Type: application/octet-stream"` to speed up the data transfer:
+
+```sh
+curl -X PUT -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/octet-stream" -F file=@file10G \
+$SERVER/api/registered/tempZone/home/alice/file10G
+```
+Without the extended header the transfer takes about 20 minutes; with the extra header only 4 minutes.
+
+### Remarks
+Currently (Feb. 2018; HTTP API v 1.0.1), the HTTP API uses the python-irodsclient function `obj.create()` and subsequently streams the data. That allows for uploading larger data files. However, iRODS event hooks will not be triggered nor will the iRODS log (standard setting) capture the operation. That means you loose the capability to trigger workflows in iRODS upon ingest, nor will you receive a full audit trail of your data in the iRODS logs.
+
 ### Deleting files
 The HTTP API also supports the deletion of files and collections. However, when using PIDs, deletion should only take place according to the data management and PID policies. Be careful of what you delete!
 
