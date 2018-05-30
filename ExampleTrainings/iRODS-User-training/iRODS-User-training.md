@@ -7,13 +7,13 @@ Login to the User Interface machine. This machine provides a commandline tool wi
 Login to User interface machine:
 
 ```sh
-ssh irods-user[1-50]@145.100.59.45
+ssh irods-user[1-50]@<server>
 ```
 
 Backup instance:
 
 ```sh
-ssh irods-user[1-50]@145.100.59.194
+ssh irods-user[1-50]@<server>
 ```
 
 
@@ -26,7 +26,7 @@ iinit
 The system will ask you for information where to connect to:
 
 ```
-Enter the host name (DNS) of the server to connect to:  sara-alice.grid.surfsara.nl
+Enter the host name (DNS) of the server to connect to:  sara-alice
 Enter the port number: 1247
 Enter your irods user name: <irodsuser>
 Enter your irods zone: aliceZone
