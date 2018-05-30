@@ -4,6 +4,19 @@ Goal: We will see how to connect to an iRODS instance and will have a look at th
 Login to the User Interface machine. This machine provides a commandline tool with which you can connect to iRODS, send data to and download from iRODS etc.
 
 ### Connection
+Login to User interface machine:
+
+```sh
+ssh irods-user[1-50]@145.100.59.45
+```
+
+Backup instance:
+
+```sh
+ssh irods-user[1-50]@145.100.59.194
+```
+
+
 On user interface machine type in
 
 ```
@@ -13,10 +26,19 @@ iinit
 The system will ask you for information where to connect to:
 
 ```
-Enter the host name (DNS) of the server to connect to:  <ip adrdress>
+Enter the host name (DNS) of the server to connect to:  sara-alice.grid.surfsara.nl
 Enter the port number: 1247
 Enter your irods user name: <irodsuser>
-Enter your irods zone: <zonename>
+Enter your irods zone: aliceZone
+```
+
+For backup:
+
+```
+Enter the host name (DNS) of the server to connect to:  alice-centos
+Enter the port number: 1247
+Enter your irods user name: <irodsuser>
+Enter your irods zone: aliceZone
 ```
 
 Provide your password and .. there you are
@@ -35,7 +57,7 @@ NOTICE: Release Version = rods4.1.9, API Version = d
 NOTICE: irods_session_environment_file - 
 	/home/ubuntu/.irods/irods_environment.json.22864
 NOTICE: irods_user_name - rods
-NOTICE: irods_host - 145.100.59.37
+NOTICE: irods_host - sara-alice.grid.surfsara.nl
 ...
 NOTICE: irods_port - 1247
 ...
@@ -49,7 +71,7 @@ The ".irods.irods_environment.json" stores the data that you just provided to lo
 Have a look at the iRODS session environment:
 
 ```
-cat /home/ubuntu/.irods/irods_environment.json
+cat /home/<user>/.irods/irods_environment.json
 ```
 
 The file contains the minimal information for a session.
@@ -84,7 +106,7 @@ we can check whether there is data in our iRODS-home directory
 ``` 
 
 - aliceZone: the name of the iRODS zone
-- `/home/<user>`: your default working directory 
+- `/home/<user>`: your default working directory (in the following we will show commands using the default user *alice*)
 
 ## Data up and download (20 minutes)
 ### Create data
@@ -114,7 +136,7 @@ The file is now only available on the iRODS server:
 ```
 ils
 ubuntu@alice-server:~$ ils
-/aliceZone/home/rods:
+/aliceZone/home/alice:
   test.txt
 ```
 But not on the local linux system (check with `ls`).
@@ -132,9 +154,9 @@ iRODS provides an abstraction from the physical location of the files. I.e. `/al
 
 ```
 ils -L 
-/aliceZone/home/rods:
-  rods              0 demoResc           27 2017-02-23.16:05 & test.txt
-    a8216b70fd3c9049213be59a96ad6c15    generic    /irodsVault/home/rods/test.txt
+/aliceZone/home/alice:
+  alice              0 demoResc           27 2017-02-23.16:05 & test.txt
+    a8216b70fd3c9049213be59a96ad6c15    generic    /irodsVault/home/alice/test.txt
 ```
 
 Aha, what does this mean?
@@ -181,14 +203,18 @@ ils -L -r
 ```
 
 ```
-  C- /aliceZone/home/rods/MyColl
-/aliceZone/home/rods/MyColl:
-  rods              0 demoResc           27 2017-02-24.08:09 & test.txt
-    a8216b70fd3c9049213be59a96ad6c15    generic    
-    /irodsVault/home/rods/MyColl/test.txt
+/aliceZone/home/alice:
+  alice       0 demoResc           24 2018-05-30.08:57 & test.txt
+    3a107ead37312be9039f16fba5e5d3b1    generic    
+    /var/lib/irods/Vault/home/alice/test.txt
+  C- /aliceZone/home/alice/lewiscarroll
+/aliceZone/home/alice/lewiscarroll:
+  alice       0 demoResc       187870 2018-05-30.08:59 & aliceInWonderland-DE.txt.utf-8
+    7bdfc92a31784e0ca738704be4f9d088    generic    
+    /var/lib/irods/Vault/home/alice/lewiscarroll/aliceInWonderland-DE.txt.utf-8
 ```
 
-You see that the logical iRODS collection '/aliceZone/home/rods/lewiscarroll' has the physical counterpart '/irodsVault/home/rods/lewiscarroll'. So data does not end up on the iRODS server randomly but follows a structure.
+You see that the logical iRODS collection '/aliceZone/home/alice/lewiscarroll' has the physical counterpart '/irodsVault/home/alice/lewiscarroll'. So data does not end up on the iRODS server randomly but follows a structure.
 
 We can also put data directly into an iRODS collection. Let us move the folder 'aliceInWonderland' in one go to iRODS under the collection 'lewiscarroll'
 
@@ -202,7 +228,7 @@ We need to use the flag `-r` for recursive upload and we gave a different name t
 - Move the German version of Alice in Wonderland to the sub collection 'book-aliceInWonderland'.
 
 ### Working directory
-All data that you uploaded so far went automatically to the logical iRODS collection '/aliceZone/home/rods/'. Why is that?
+All data that you uploaded so far went automatically to the logical iRODS collection '/aliceZone/home/alice/'. Why is that?
 
 You have a command
 
@@ -210,7 +236,7 @@ You have a command
 ipwd
 ```
 
-So if you do not specify a full path '/aliceZone/home/rods/<file>' but only a partial path e.g. 'lewiscarroll/file.txt' iRODS automatically uses the current working directory as a prefix.
+So if you do not specify a full path '/aliceZone/home/alice/<file>' but only a partial path e.g. 'lewiscarroll/file.txt' iRODS automatically uses the current working directory as a prefix.
 
 You can change your current working directory with
 
@@ -251,19 +277,19 @@ ils -r -A lewiscarroll
 ```
 
 ```
-/aliceZone/home/di4r-user1/lewiscarroll:
-        ACL - di4r-user1#aliceZone:own
+/aliceZone/home/alice/lewiscarroll:
+        ACL - alice#aliceZone:own
         Inheritance - Disabled
-  C- /aliceZone/home/di4r-user1/lewiscarroll/book-aliceInWonderland
-/aliceZone/home/di4r-user1/lewiscarroll/book-aliceInWonderland:
-        ACL - di4r-user1#aliceZone:own
+  C- /aliceZone/home/alice/lewiscarroll/book-aliceInWonderland
+/aliceZone/home/alice/lewiscarroll/book-aliceInWonderland:
+        ACL - alice#aliceZone:own
         Inheritance - Disabled
   aliceInWonderland-DE.txt.utf-8
-        ACL - di4r-user1#aliceZone:own
+        ACL - alice#aliceZone:own
   aliceInWonderland-EN.txt.utf-8
-        ACL - di4r-user1#aliceZone:own
+        ACL - alice#aliceZone:own
   aliceInWonderland-IT.txt.utf-8
-        ACL - di4r-user1#aliceZone:own
+        ACL - alice#aliceZone:own
 ```
 
 The collection and all its data is owned by the user 'rods'. Noone else has access rights.
@@ -273,27 +299,27 @@ Collections have a flag 'Inheritance'. If this flag is set to true, all content 
 Let us change the accession rights of 'lewiscarroll'. Choose another irods user who you want to give access (as your neighbour team):
 
 ```
-ichmod read di4r-user2 lewiscarroll
+ichmod read irods-user2 lewiscarroll
 ```
 
-The user 'di4r-user1' can list the collection and see the data to which he has the respective permission.
+The user 'alice' can list the collection and see the data to which he has the respective permission.
 
 ```
 ils -Ar lewiscarroll
 
-/aliceZone/home/di4r-user1/lewiscarroll:
-        ACL - di4r-user1#aliceZone:own   di4r-user2#aliceZone:read object
+/aliceZone/home/alice/lewiscarroll:
+        ACL - alice#aliceZone:own   irods-user2#aliceZone:read object
         Inheritance - Disabled
-  C- /aliceZone/home/di4r-user1/lewiscarroll/book-aliceInWonderland
-/aliceZone/home/di4r-user1/lewiscarroll/book-aliceInWonderland:
-        ACL - di4r-user1#aliceZone:own
+  C- /aliceZone/home/alice/lewiscarroll/book-aliceInWonderland
+/aliceZone/home/alice/lewiscarroll/book-aliceInWonderland:
+        ACL - alice#aliceZone:own
         Inheritance - Disabled
   aliceInWonderland-DE.txt.utf-8
-        ACL - di4r-user1#aliceZone:own
+        ACL - alice#aliceZone:own
   aliceInWonderland-EN.txt.utf-8
-        ACL - di4r-user1#aliceZone:own
+        ACL - alice#aliceZone:own
   aliceInWonderland-IT.txt.utf-8
-        ACL - di4r-user1#aliceZone:own
+        ACL - alice#aliceZone:own
 ```
 
 Change the inheritance and place some new data in the collection:
@@ -302,6 +328,7 @@ Change the inheritance and place some new data in the collection:
 ichmod inherit lewiscarroll
 iput -K test-restore.txt lewiscarroll/test1.txt
 ```
+
 ```
 ils -A -r lewiscarroll 
 
@@ -334,7 +361,7 @@ First we will explore how to create these cues for which we can search later.
  ```
  imeta add -d test.txt 'author' 'Alice'
  ```
- Here the 'Unit part is empty'.
+ Here the 'Unit' part is empty.
  
 - Annotate a collection 
  
@@ -438,7 +465,7 @@ What does the team have to do to make you and only you see the metadata?
 - Do the permissions of the files have any influence on the metadata search?
 
 ## Exercise: Find the easter bunny (20 min)
-- In the system there are some clues under the attribute 'Easter'. Gather the clues and download the easter bunny. 
+- In the system there are some clues under the attribute 'GAME'. Gather the clues and download the easter bunny. 
 
 ## iRODS resources (30 minutes, optional)
 (Note: commands and resource hierarchies are still todo)
@@ -452,57 +479,73 @@ You can list all resources you have available with:
 ```
 ilsresc
 ``` 
-You will see the resource tree.
+You will see the resources which you can use.
 ```
 demoResc
-knmiDataResc
-roundRobin:roundrobin
-├── storage1
-└── storage2
-storage3
+replResc:replication
+robin:roundrobin
+sara-vaultResource
 ```
-There are the storage resources: demoResc, knmiDataResc, storage1, storage2, ...
 
-The resources demoResc, storage3 and knmiDataResc can be used directly to store data.
-The resources storage1 and 2 are managed by a coordinating resource called roundRobin and ...
+On the backup instance you have the following resources:
+
+```sh
+demoResc
+iarchive-centosResource
+replResc:replication
+resource5
+robin:roundrobin
+```
+
+There are the storage resources: demoResc,replResc, ...
+
+The resource demoResc (and resource5) can be used directly to store data.
+There are some more resources behind robin and replResc which are not directly accessible.
 
 If not further specified all your data will go to 'demoResc'.
 
-You can specify the resource on which your data shall be stored directly with the put command. Let us put some data on storage3 resource.
+You can specify the resource on which your data shall be stored directly with the put command. Let us put some data on sara-vaultResource (or iarchive-centosResource) resource.
 
 ```
-iput -K -R storage3 test-restore.txt testfile-on-storage3.txt
+iput -K -R sara-vaultResource test-restore.txt testfile-on-vault.txt
 ```
 
-BIG advantage: As a user you do not need to know which storage medium is hidden behind the resource, you simply use the 
-icommands to steer your data movements in the backend.
+And check iRODS's system information:
+
+```
+ils -L testfile-on-vault.txt
+  alice       0 iarchive-centosResource           24 2018-05-30.10:04 & testfile-on-vault.txt
+    3a107ead37312be9039f16fba5e5d3b1    generic    /data/home/alice/testfile-on-vault.txt
+```
+
+BIG advantage: As a user you do not need to know which storage medium is hidden behind the resource, you simply use the icommands to steer your data movements in the backend.
 
 ### User defined replication of data
 Once your data is lying in iRODS you can also replicate your data to another predefined resource.
-Use `irepl` to replicate the German version of Alice in Wonderland to storage3
+Use `irepl` to replicate the English version of Alice in Wonderland to sara-vaultResource (or iarchive-centosResource)
 
 ```
-irepl -R storage3 irepl -R storage3 \
-lewiscarroll/book-aliceInWonderland/aliceInWonderland-DE.txt.utf-8
+irepl -R sara-vaultResource\
+lewiscarroll/book-aliceInWonderland/aliceInWonderland-EN.txt.utf-8
 ```
 
 ```
-ils -L lewiscarroll/book-aliceInWonderland/aliceInWonderland-DE.txt.utf-8
- rods              0 demoResc      4909056 2017-02-22.12:40 & testfile.txt
-        generic    /irodsVault/home/rods/testfile.txt
-  rods              1 knmiDataResc      4909056 2017-02-27.18:44 & testfile.txt
-        generic    /data/home/rods/testfile.txt
+ils -L lewiscarroll/book-aliceInWonderland/aliceInWonderland-EN.txt.utf-8
+  alice       0 demoResc       109858 2018-05-30.09:03 & aliceInWonderland-EN.txt.utf-8
+    4469a7b948107c7d5bba84b0403cd415    generic    /var/lib/irods/Vault/home/alice/lewiscarroll/book-aliceInWonderland/aliceInWonderland-EN.txt.utf-8
+  alice       1 sara-vaultResource       109858 2018-05-30.10:08 & aliceInWonderland-EN.txt.utf-8
+    4469a7b948107c7d5bba84b0403cd415    generic    /data/home/alice/lewiscarroll/book-aliceInWonderland/aliceInWonderland-EN.txt.utf-8
 ```
 The replicas are enumerated. With this number you can specifically remove a replica. Let us remove the replica on the demoResc:
 
 ```
-irm -n 0 lewiscarroll/book-aliceInWonderland/aliceInWonderland-DE.txt.utf-8
+irm -n 0 lewiscarroll/book-aliceInWonderland/aliceInWonderland-EN.txt.utf-8
 ``` 
 We still have a copy of the German version in our system, so the logical name still exists:
 
 ```
 ils lewiscarroll/book-aliceInWonderland
-/aliceZone/home/di4r-user1/lewiscarroll/book-aliceInWonderland:
+/aliceZone/home/alice/lewiscarroll/book-aliceInWonderland:
   aliceInWonderland-DE.txt.utf-8
   aliceInWonderland-EN.txt.utf-8
   aliceInWonderland-IT.txt.utf-8
@@ -511,7 +554,7 @@ ils lewiscarroll/book-aliceInWonderland
 If you do an 
 
 ```
-irm testfile.txt
+irm lewiscarroll/book-aliceInWonderland/aliceInWonderland-EN.txt.utf-8
 ```
 all replicas will be removed. The filename will only be removed from the logical namespace if there is no replica left.
 
@@ -525,7 +568,7 @@ In iRODS the system admin can group resources and enforce certain data replicati
 - Round Robin
 
 ```
-iput -K -R roundRobin test-restore.txt testfile-on-rr.txt
+iput -K -R robin test-restore.txt testfile-on-rr.txt
 ils -L testfile-on-rr.txt
 ```
 
@@ -547,22 +590,3 @@ Replication resource that automatically copies your data on two child resources.
 
 **Note** As an iRODS user you do not need to know which servers and storage systems are involved. 
 You only need an idea about the policies hidden behind grouped resources.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
