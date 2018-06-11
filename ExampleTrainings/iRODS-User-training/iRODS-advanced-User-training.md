@@ -383,7 +383,7 @@ Verify that *irsync* really just updates data when necessary.
 
 ### Metadata for remote data (5min)
 We created a nother copy of the *archive* collection at *bobZone* but we lost the link to the data at *aliceZone*.
-We will now have a loko at how we can use the iCAT metadat catalogues at *bobZone* and at *aliceZone* to link the data.
+We will now have a look at how we can use the iCAT metadat catalogues at *bobZone* and at *aliceZone* to link the data.
 
 Recall, we can create metadata for iRODS data objects and collections on our home iRODS zone like this:
 
