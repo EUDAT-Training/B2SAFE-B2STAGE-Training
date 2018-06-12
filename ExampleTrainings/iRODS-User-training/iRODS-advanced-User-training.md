@@ -156,7 +156,23 @@ robin:roundrobin
 ├── resource3:unixfilesystem
 └── resource4:unixfilesystem
 ```
+
+<span style="color:red">
+I actually get this:
+```
+ilsresc 
+demoResc
+replResc:replication
+robin:roundrobin
+sara-vaultResource
+```
+</span>
+
 There are the storage resources: demoResc, iarchive-centosResource, storage1, storage2, ...
+
+<span style="color:red">
+Should it be "resource1"..."resource4" instead of "storage1" ... "storage4" ?
+</span>
 
 The resources demoResc and iarchive-centosResource can be used directly to store data.
 The resources storage1-4 are managed by coordinating resources which implement low-level data policies.
@@ -174,6 +190,9 @@ echo "Some test text" > test.txt
 ```
 iput -K -R iarchive-centosResource test.txt testfile-on-iarchive.txt
 ```
+<span style="color:red">
+In my setup iarchive-centosResource did not exist -> silently written to default resource.
+</span>
 
 BIG advantage: As a user you do not need to know which storage medium is hidden behind the resource, you simply use the 
 icommands to steer your data movements in the backend.
@@ -220,6 +239,14 @@ all replicas will be removed.
 1. Replicate a file to two different resources
 3. What happens if you want to store data on resource1?
 2. Explore `itrim` and trim the number of replicas to 1 (1 original and 1 replica)
+
+<span style="color:red">
+iput -K -R storage1 test.txt testfile-on-iarchive.txt
+-> OVERWRITE_WITHOUT_FORCE_FLAG
+
+iput -K -R resource1 test.txt testfile-on-iarchive.txt
+-> DIRECT_CHILD_ACCESS
+</span>
 
 ### Summary so far
 
@@ -582,6 +609,17 @@ We see that this kind of for-loops use statements similar to the ones in the *iq
 Write a rule that finds all data objects and all collections that carry the same metadata attribute.
 E.g. there is a collection labeled with the attribute 'game' and there are some files carrying the same attribute. Make the attribute a variable.
 
+<span style="color:red">
+iquest did not behave as expected? Does the collection with the meta tag actually exist?
+```
+> iquest "SELECT COLL_NAME, META_COLL_ATTR_VALUE  where META_COLL_ATTR_NAME like 'game'"
+CAT_NO_ROWS_FOUND: Nothing was found matching your query
+
+> iquest "SELECT META_COLL_ATTR_VALUE  where META_COLL_ATTR_NAME like 'game'"
+META_COLL_ATTR_VALUE = Easter
+```
+</span>
+
 ### Solution framework
 
 ```c
@@ -672,6 +710,11 @@ iRODS executes the first *hello* rule that matches the input and leads to some a
 
 iRODS is a not a real programming language but a rule/policy language. Thus, rules should not be seen as functions but as policies. 
 
+<span style="color:red">
+It is a real programming language, but not a typical imperative programming language.
+</span>
+
+
 The rules work like a filter. Rules can have the same name and different bodies. The first rule that matches the parameters is executed. Hence, the most general rule (policy) should go to the back.
 
 On-statements enable us to define different policies and update them without breaking other policies. Explore that in the exercise below.
@@ -689,6 +732,12 @@ On-statements enable us to define different policies and update them without bre
 - Why would you put the cases tested with *on* in different rules (all carrying the same rule name)?
 
 ### Solution framework
+
+<span style="color:red">
+Is the task to fill the else conditions?
+Why mixing two solution types?
+Why is storagepolicy called at the end while everything should be implemented with if-then-else?
+</span>
 
 ```c
 policydecision{
@@ -781,6 +830,11 @@ replicate(*source, *dest, *status){
 INPUT *coll="archive", *destination=""
 OUTPUT ruleExecOut
 ```
+Consider the following line of functino replicate
+```
+        msiCollRsync(*source, *destination,
+```
+Why no using argument *dest instead of global rule parameter?
 
 ### Attaching metadata
 Open *exampleRules/metadataPart.r* and fill in the missing pieces.
@@ -833,6 +887,9 @@ createAVU(*key, *value, *path){
 INPUT *item="archive", *mdkey="ORIGINAL", *mdval="/aliceZone/home/di4r-user1/archive"
 OUTPUT ruleExecOut
 ```
+<span style="color:red">/aliceZone/home/$userNameClient/archive ?
+or /$rodsZoneClienot/home/$userNameClient/archive 
+</span>
 
 ### Putting it all together: Replicate and link original and replica by appropriate metadata
 Open *exampleRules/replication.r*. The file consists of the two parts and rules which we already created. Now link them in one workflow.
@@ -997,4 +1054,12 @@ replication{
 INPUT *source="archive", *destination="/bobZone/home/alice#aliceZone"
 OUTPUT ruleExecOut
 ```
+
+<span style="color:red">
+* setting default variables
+```
+*colleoooction="archive", *destination="/bobZone/home/$userNameClienoooot#aliceZone"
+```
+* solution does not work recursively
+</spanoo>
 

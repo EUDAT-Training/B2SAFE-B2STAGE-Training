@@ -174,6 +174,13 @@ We downloaded test.txt and renamed our local copy to test-restore.txt. With the 
 **Note,** iRODS can be used as external storage service, we can store extra system information, i.e. checksums which are used to verify data integrity upon data moving.
 
 ### Small exercise:
+<span style="color:red">
+In this section we shall use a real document, the German version of Alice in Wonderland, that you can download from the Gutenberg project:
+```
+wget http://www.gutenberg.org/ebooks/19778.txt.utf-8 -o aliceInWonderland-DE.txt.utf-8
+```
+</span>
+
 - Store the German version of Alice in wonderland `aliceInWonderland-DE.txt.utf-8` on iRODS.
 - Verify that the checksum in iRODS is the same as for your local file. You can calculate the checksum in linux with `md5sum aliceInWonderland-DE.txt.utf-8`.
 
@@ -466,6 +473,21 @@ What does the team have to do to make you and only you see the metadata?
 
 ## Exercise: Find the easter bunny (20 min)
 - In the system there are some clues under the attribute 'GAME'. Gather the clues and download the easter bunny. 
+
+<span style="color:red">
+Cannot download the bunny
+```
+> iquest "SELECT META_DATA_ATTR_NAME, META_DATA_ATTR_VALUE WHERE META_DATA_ATTR_NAME like 'GAME'"
+META_DATA_ATTR_NAME = GAME
+META_DATA_ATTR_VALUE = download bunny here:
+META_DATA_ATTR_UNITS = /aliceZone/home/alice/bunny.txt
+> iget iget /aliceZone/home/alice/bunny.txt
+ERROR: resolveRodsTarget: srcPath /aliceZone/home/alice/bunny.txt does not exist
+ERROR: getUtil: resolveRodsTarget status = -317000 USER_INPUT_PATH_ERR
+> ils /aliceZone/home/alice/
+ERROR: lsUtil: srcPath /aliceZone/home/alice does not exist or user lacks access permission
+```
+</span>
 
 ## iRODS resources (30 minutes, optional)
 (Note: commands and resource hierarchies are still todo)
