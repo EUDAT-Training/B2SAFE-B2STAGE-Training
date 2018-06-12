@@ -132,7 +132,7 @@ We are going to create a new PID by using the PUT request.
 The request method is -X PUT followed by the actual json data 
 
 ```sh
--X PUT --data '{"values":[ 
+$CURL -X PUT --data '{"values":[ 
     {
         "index":1,
         "type":"URL",
