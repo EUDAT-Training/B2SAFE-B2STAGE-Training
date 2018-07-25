@@ -138,12 +138,12 @@ Download the iRODS server software and the database plugin and install the packa
 ```sh
 export RENCI='ftp.renci.org/pub/irods/releases'
 wget \
-ftp://$RENCI/4.1.10/centos7/irods-icat-4.1.10-centos7-x86_64.rpm
+ftp://$RENCI/4.1.11/centos7/irods-icat-4.1.11-centos7-x86_64.rpm
 wget \
-ftp://$RENCI/4.1.10/centos7/irods-database-plugin-postgres-1.10-centos7-x86_64.rpm
+ftp://$RENCI/4.1.11/centos7/irods-database-plugin-postgres-1.11-centos7-x86_64.rpm
 
-sudo yum install irods-icat-4.1.10-centos7-x86_64.rpm
-sudo yum install irods-database-plugin-postgres-1.10-centos7-x86_64.rpm
+sudo yum install irods-icat-4.1.11-centos7-x86_64.rpm
+sudo yum install irods-database-plugin-postgres-1.11-centos7-x86_64.rpm
 ```
 
 ### Download and install iRODS 4.2.1
