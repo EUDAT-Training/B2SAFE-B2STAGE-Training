@@ -74,14 +74,15 @@ import os, shutil
 ```json
 To connect to the epic server you need to provide a prefix, the private key and the certificate. This information is stored in a json file *cred_file.json* and should look like this:
 {
-    "handle_server_url": "https://epic4.storage.surfsara.nl:8007",
+    "handle_server_url": "https://epic5.storage.surfsara.nl:8003",
+    "client": "rest",
     "private_key": "privkey.pem",
     "certificate_only": "certificate_only.pem",
     "prefix": "21.T12995",
     "handleowner": "200:0.NA/21.T12995",
     "reverselookup_username": "21.T12995",
     "reverselookup_password": "<passwd>",
-    "HTTPS_verify": "True"
+    "HTTPS_verify": "False"
 }
 ```
 On the user interface machines you can find such a file and all necessary certificates and keys in */<full path>/HandleCerts/*. Please adopt the *<full path>* appropriately.
